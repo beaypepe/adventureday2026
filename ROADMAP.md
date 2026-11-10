@@ -31,5 +31,5 @@ Lista de tareas para el desarrollo completo del proyecto.
 
 ## Fase 4: Activos Gráficos y Despliegue Final
 - [ ] Subir las imágenes definitivas (`logo.png`, `puzzle.png`, las 11 imágenes de `cards/` y las imágenes de `arcade/`).
-  - *Avance (2026-11-10):* subidas `logo.png` (600×160, ya visible en el Header), `puzzle.png` (600×600) y las 11 cartas de `cards/`. Pendientes solo los tres dibujos de `arcade/` (`item-good.png`, `item-bad.png` y `player.png`).
+  - *Avance (2026-11-10):* subidas `logo.png` (600×160, ya visible en el Header), `puzzle.png` (600×600), las 11 cartas de `cards/` y los tres dibujos del arcade (`item-good.png` y `item-bad.png` de 128×128 y `player.png` de 160×100, los tres con transparencia). No falta ningún activo gráfico.
 - [ ] Verificar en GitHub Pages (`https://beaypepe.github.io/adventureday2026/`) desde móviles reales tanto las 5 rutas válidas como el salto a `404.html` en rutas inventadas.

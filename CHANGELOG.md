@@ -2,6 +2,15 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Llegan los dibujos del arcade
+
+### Añadido
+- **`assets/img/arcade/`**: los tres dibujos definitivos, con transparencia y en las medidas pedidas: `item-good.png` (128×128, la chincheta naranja con candado que hay que atrapar), `item-bad.png` (128×128, la bomba con mecha que reinicia la partida) y `player.png` (160×100, la cesta que recoge). El juego los usa automáticamente; ya no se ven las figuras de reserva.
+
+### Notas
+- Comprobado en Chromium a 360 px: las tres imágenes cargan con sus medidas reales, se dibujan en el canvas (chincheta, bomba y cesta) y el contador sigue sumando. 0 errores de JavaScript.
+- Con esto **no falta ningún activo gráfico** del proyecto: quedan solo las pruebas en móviles reales.
+
 ## 2026-11-10 — Página temporal con los cinco QR
 
 ### Añadido
