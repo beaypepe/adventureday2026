@@ -2,6 +2,28 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Primer minijuego: el laberinto táctil
+
+### Añadido
+- **`b4x8rf/index.html`** (carpeta asignada al Laberinto): página del minijuego con el Header y Footer comunes, instrucciones de una línea, `<canvas class="maze">`, mensaje de estado, botón «Empezar de nuevo» y un recuadro donde queda la respuesta al ganar.
+- **`assets/js/laberinto.js`**: lógica del juego.
+  - Laberinto generado con retroceso recursivo sobre una cuadrícula **6×6** (perfecto y siempre soluble; pasillos de 47 px en móviles de 320 px y 60 px en los de 430 px), distinto en cada partida.
+  - Seguimiento del dedo con Pointer Events y muestreo del segmento recorrido entre eventos: rozar una pared no penaliza, pero atravesarla, saltar de casilla o apoyar el dedo fuera del camino reinicia la partida con vibración (`navigator.vibrate(100)`), borde rojo y aviso en pantalla.
+  - Se dibuja el camino ya recorrido, la salida verde, la meta naranja y la ficha del jugador.
+  - Al llegar a la meta: mensaje, vibración, recuadro con la respuesta y modal común. La respuesta se guarda en la constante `RESPUESTA` (de momento `"PENDIENTE"`).
+  - Admite `?seed=N` para repetir un mismo laberinto en las pruebas.
+- **Modal de victoria en `assets/js/common.js`**: `window.AD.mostrarRespuesta(texto)` crea (una sola vez) un diálogo `role="dialog" aria-modal="true"` con la respuesta de la etapa, bloquea el scroll de fondo, cierra con el botón, con `Escape` o tocando fuera, y devuelve el foco al elemento anterior. Es el que usarán los cinco juegos.
+
+### Modificado
+- **`assets/css/styles.css`**: botón secundario (`.btn--secundario`), estilos del tablero (`.maze`, con `touch-action: none` y `user-select: none`, y `.maze--fallo` para el fogonazo), textos de estado y de respuesta, y estilos del modal (`.modal`, `.modal__caja`, `.modal__respuesta`…).
+- **`AGENTS.md`**: el árbol del apartado 5 recoge las cinco carpetas reales (`b4x8rf`, `7k2m9p`, `3n9w2q`, `m8d6fc`, `5h1j7v`) y `assets/js/laberinto.js`; el apartado 4 explica que la respuesta se revela con `AD.mostrarRespuesta()` y que las páginas se titulan solo con el nombre del juego, sin numerarlas.
+- **`ROADMAP.md`**: nombres de carpeta asignados y tarea de la Fase 1 de estilos/utilidades cerrada; el laberinto queda marcado como hecho, con la respuesta real pendiente.
+
+### Notas
+- Probado en Chromium con eventos táctiles reales, replicando en Node el mismo generador con semilla fija: el recorrido completo de la solución abre el modal con la respuesta; atravesar una pared y empezar fuera de la casilla muestran su aviso y reinician; el modal se cierra con el botón y con `Escape`; la página no hace scroll mientras se arrastra.
+- Sin desbordes a 320, 360, 390 y 430 px; `html-validate` y `csstree-validator` sin errores.
+- Pendiente: escribir las respuestas reales en cada juego (ahora `"PENDIENTE"`).
+
 ## 2026-11-10 — El logo del Header lleva al inicio y la 404 deja de enlazarlo
 
 ### Modificado

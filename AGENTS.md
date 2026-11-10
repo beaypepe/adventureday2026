@@ -54,7 +54,7 @@ Durante el evento habrá entre 20 y 30 códigos QR físicos sobre la mesa (los c
 ---
 
 ## 4. Especificaciones Técnicas de los 5 Minijuegos (Etapas)
-Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** para no atascar a los asistentes del evento. Todos los juegos deben incluir **fallbacks visuales** (colores, números o emojis) en caso de que las imágenes `.png` aún no estén subidas al repositorio, permitiendo probar toda la lógica desde el primer momento. Al superar cualquiera de ellos, se mostrará de forma clara y destacada en pantalla la **respuesta/código de esa etapa** para introducirla en la app Adventure Lab.
+Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** para no atascar a los asistentes del evento. Todos los juegos deben incluir **fallbacks visuales** (colores, números o emojis) en caso de que las imágenes `.png` aún no estén subidas al repositorio, permitiendo probar toda la lógica desde el primer momento. Al superar cualquiera de ellos, se mostrará de forma clara y destacada en pantalla la **respuesta/código de esa etapa** para introducirla en la app Adventure Lab. El modal común se abre con `window.AD.mostrarRespuesta(respuesta)` (definido en `assets/js/common.js`) y cada juego guarda su respuesta en una constante al principio de su propio archivo `assets/js/[juego].js`. Las páginas de las etapas se titulan con el nombre del juego (Laberinto, Puzzle, Parejas, Sopa de letras, Arcade), **sin numerarlas**.
 
 ### Etapa 1: El Laberinto Táctil (HTML5 Canvas + Touch API)
 * **Tamaño y Ergonomía ("Dedos Gordos"):** 
@@ -113,7 +113,8 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 │   ├── css/
 │   │   └── styles.css          # Estilos globales (Header, Footer, Reset, Layout móvil, Modales)
 │   ├── js/
-│   │   └── common.js           # Funciones compartidas (header/footer/modales de victoria)
+│   │   ├── common.js           # Funciones compartidas (fecha del Lab, modal de respuesta)
+│   │   └── laberinto.js        # Lógica del laberinto táctil
 │   └── img/
 │       ├── favicon.png         # Icono del sitio en la pestaña (180x180px)
 │       ├── apple-touch-icon.png # Icono para iOS (180x180px)
@@ -128,17 +129,19 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 │           ├── item-good.png   # Logo Adventure Day que cae (128x128px)
 │           ├── item-bad.png    # Bomba a esquivar (128x128px)
 │           └── player.png      # Cesta/receptor opcional (160x100px)
-├── [hash-etapa-1]/             # Carpeta con nombre aleatorio -> Etapa 1: Laberinto táctil
+├── b4x8rf/                     # Laberinto táctil
 │   └── index.html
-├── [hash-etapa-2]/             # Carpeta con nombre aleatorio -> Etapa 2: Puzzle deslizante 3x3
+├── 7k2m9p/                     # Puzzle deslizante 3x3
 │   └── index.html
-├── [hash-etapa-3]/             # Carpeta con nombre aleatorio -> Etapa 3: Juego de parejas (20 cartas)
+├── 3n9w2q/                     # Juego de parejas (20 cartas)
 │   └── index.html
-├── [hash-etapa-4]/             # Carpeta con nombre aleatorio -> Etapa 4: Sopa de letras táctil
+├── m8d6fc/                     # Sopa de letras táctil
 │   └── index.html
-└── [hash-etapa-5]/             # Carpeta con nombre aleatorio -> Etapa 5: Mini-juego arcade (26 logos)
+└── 5h1j7v/                     # Mini-juego arcade (26 logos)
     └── index.html
 ```
+
+> Las carpetas `7k2m9p`, `3n9w2q`, `m8d6fc` y `5h1j7v` ya tienen nombre asignado y se crearán al programar sus juegos.
 
 ---
 
