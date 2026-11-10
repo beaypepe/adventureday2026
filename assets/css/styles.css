@@ -512,6 +512,65 @@ p {
   border-radius: 12px;
 }
 
+/* ---------- Sopa de letras ---------- */
+.sopa {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2px;
+  /* Mismo ancho que los otros juegos: casi todo, con un respiro a cada lado */
+  width: calc(100% + 2 * var(--page-gutter) - 2 * var(--juego-inset));
+  margin: 8px calc(var(--juego-inset) - var(--page-gutter)) 0;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sopa__celda {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: #f4f4f4;
+  color: #1a1a1a;
+  font: inherit;
+  font-size: clamp(0.6875rem, 3.5vw, 1rem);
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sopa__celda:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 1px;
+}
+
+/* Palabra ya encontrada y selección en curso */
+.sopa__celda--hallada {
+  background: #d5f2e2;
+  color: #02683c;
+}
+
+.sopa__celda--marcada {
+  background: var(--color-orange);
+  color: var(--color-white);
+}
+
+/* Selección que no es ninguna de las palabras */
+.sopa__celda--fallo {
+  background: #f6d5d0;
+  color: #8c2b1c;
+}
+
+/* Sopa completada */
+.sopa--completa {
+  box-shadow: 0 0 0 2px var(--color-green);
+  border-radius: 8px;
+}
+
 .game__estado {
   margin: 16px 0 0;
   min-height: 2.6em;

@@ -1,0 +1,469 @@
+/* ==========================================================================
+   Sopa de letras — Adventure Day 2026 (carpeta m8d6fc)
+   --------------------------------------------------------------------------
+   Reglas:
+   • Cinco palabras escondidas en una cuadrícula de 12x12, en horizontal,
+     vertical o diagonal, hacia delante o hacia atrás.
+   • Se marcan deslizando el dedo de la primera letra a la última, o tocando
+     una y luego la otra (cómodo cuando las casillas son pequeñas).
+   • Las palabras NO se listan en la página: solo se dice cuántas hay y de qué
+     tema, para que haya que buscarlas.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  /* Respuesta de esta etapa, guardada en clave (ver AD.abrir en common.js).
+     No se escribe en claro en el repositorio para que no se encuentre de un vistazo. */
+  var RESPUESTA = window.AD.abrir("AV0QRAcQZVdYMlQFaQsGSVM=", "m8d6fc:26");
+
+  var PALABRAS = ["ADVENTURE", "GEOCACHING", "ETAPA", "COORDENADAS", "EVENTO"];
+
+  var LADO = 12;   // 12x12: la palabra más larga tiene 11 letras
+  var RELLENO = "AAAAAAAAEEEEEEIIIIIOOOOUUBCDFGHLMNPRSTVZ";
+
+  var DIRECCIONES = [
+    [0, 1], [1, 0], [1, 1], [1, -1],
+    [0, -1], [-1, 0], [-1, -1], [-1, 1]
+  ];
+
+  var contenedor = document.getElementById("sopa");
+  var textoEstado = document.getElementById("estado");
+  var botonOtra = document.getElementById("otra");
+  var cajaRespuesta = document.getElementById("respuesta-final");
+
+  if (!contenedor) {
+    return;
+  }
+
+  var rejilla = [];          // rejilla[fila][columna] = letra
+  var celdas = [];           // los 144 botones, en orden
+  var colocadas = [];        // { palabra, celdas } de la sopa actual
+  var encontradas = [];      // palabras ya halladas
+  var seleccion = [];        // celdas resaltadas en este momento
+  var armada = null;         // celda elegida con un toque, a la espera del segundo
+  var presionando = false;
+  var celdaInicio = null;
+  var terminado = false;
+  var temporizadorFallo = 0;
+
+  /* ---------- Generación de la sopa ---------- */
+
+  function filaDe(indice) {
+    return Math.floor(indice / LADO);
+  }
+
+  function colDe(indice) {
+    return indice % LADO;
+  }
+
+  function letraAlAzar() {
+    return RELLENO.charAt(Math.floor(Math.random() * RELLENO.length));
+  }
+
+  function crearRejilla() {
+    var filas = [];
+
+    for (var f = 0; f < LADO; f++) {
+      var fila = [];
+
+      for (var c = 0; c < LADO; c++) {
+        fila.push("");
+      }
+      filas.push(fila);
+    }
+
+    return filas;
+  }
+
+  /* Intenta colocar una palabra en un sitio libre al azar. Devuelve sus celdas
+     o null si no ha encontrado hueco en 400 intentos. */
+  function colocar(palabra) {
+    for (var intento = 0; intento < 400; intento++) {
+      var dir = DIRECCIONES[Math.floor(Math.random() * DIRECCIONES.length)];
+      var fila = Math.floor(Math.random() * LADO);
+      var col = Math.floor(Math.random() * LADO);
+
+      if (fila + dir[0] * (palabra.length - 1) < 0 ||
+          fila + dir[0] * (palabra.length - 1) >= LADO ||
+          col + dir[1] * (palabra.length - 1) < 0 ||
+          col + dir[1] * (palabra.length - 1) >= LADO) {
+        continue;
+      }
+
+      var cabe = true;
+      var i;
+
+      for (i = 0; i < palabra.length && cabe; i++) {
+        var actual = rejilla[fila + dir[0] * i][col + dir[1] * i];
+
+        if (actual && actual !== palabra.charAt(i)) {
+          cabe = false;
+        }
+      }
+
+      if (!cabe) {
+        continue;
+      }
+
+      var usadas = [];
+
+      for (i = 0; i < palabra.length; i++) {
+        var f = fila + dir[0] * i;
+        var c = col + dir[1] * i;
+
+        rejilla[f][c] = palabra.charAt(i);
+        usadas.push(f * LADO + c);
+      }
+
+      return { palabra: palabra, celdas: usadas };
+    }
+
+    return null;
+  }
+
+  function rellenar() {
+    for (var f = 0; f < LADO; f++) {
+      for (var c = 0; c < LADO; c++) {
+        if (!rejilla[f][c]) {
+          rejilla[f][c] = letraAlAzar();
+        }
+      }
+    }
+  }
+
+  function generar() {
+    var orden = PALABRAS.slice().sort(function (a, b) {
+      return b.length - a.length; // primero las palabras largas, caben mejor
+    });
+
+    for (var vuelta = 0; vuelta < 40; vuelta++) {
+      rejilla = crearRejilla();
+      colocadas = [];
+
+      var completa = true;
+
+      for (var i = 0; i < orden.length; i++) {
+        var puesta = colocar(orden[i]);
+
+        if (!puesta) {
+          completa = false;
+          break;
+        }
+        colocadas.push(puesta);
+      }
+
+      if (completa) {
+        rellenar();
+        return;
+      }
+    }
+  }
+
+  function pintar() {
+    contenedor.textContent = "";
+    celdas = [];
+
+    for (var f = 0; f < LADO; f++) {
+      for (var c = 0; c < LADO; c++) {
+        var boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = "sopa__celda";
+        boton.dataset.i = String(f * LADO + c);
+        boton.textContent = rejilla[f][c];
+        boton.setAttribute("aria-label",
+          "Fila " + (f + 1) + ", columna " + (c + 1) + ": " + rejilla[f][c]);
+        contenedor.appendChild(boton);
+        celdas.push(boton);
+      }
+    }
+  }
+
+  /* ---------- Selección ---------- */
+
+  /* Celdas en línea recta (horizontal, vertical o diagonal) entre dos casillas.
+     Devuelve null si no están alineadas. */
+  function lineaEntre(a, b) {
+    var fa = filaDe(a);
+    var ca = colDe(a);
+    var df = filaDe(b) - fa;
+    var dc = colDe(b) - ca;
+
+    if (df !== 0 && dc !== 0 && Math.abs(df) !== Math.abs(dc)) {
+      return null;
+    }
+
+    var pasos = Math.max(Math.abs(df), Math.abs(dc));
+
+    if (pasos === 0) {
+      return [a];
+    }
+
+    var pasoF = df === 0 ? 0 : (df > 0 ? 1 : -1);
+    var pasoC = dc === 0 ? 0 : (dc > 0 ? 1 : -1);
+    var lista = [];
+
+    for (var k = 0; k <= pasos; k++) {
+      lista.push((fa + pasoF * k) * LADO + (ca + pasoC * k));
+    }
+
+    return lista;
+  }
+
+  function marcar(lista) {
+    var i;
+
+    for (i = 0; i < seleccion.length; i++) {
+      celdas[seleccion[i]].classList.remove("sopa__celda--marcada");
+    }
+
+    seleccion = lista || [];
+
+    for (i = 0; i < seleccion.length; i++) {
+      celdas[seleccion[i]].classList.add("sopa__celda--marcada");
+    }
+  }
+
+  function textoDe(lista) {
+    var texto = "";
+
+    for (var i = 0; i < lista.length; i++) {
+      texto += rejilla[filaDe(lista[i])][colDe(lista[i])];
+    }
+
+    return texto;
+  }
+
+  function palabraDe(texto) {
+    var alReves = texto.split("").reverse().join("");
+    var i;
+
+    for (i = 0; i < PALABRAS.length; i++) {
+      if (PALABRAS[i] === texto) {
+        return PALABRAS[i];
+      }
+    }
+
+    for (i = 0; i < PALABRAS.length; i++) {
+      if (PALABRAS[i] === alReves) {
+        return PALABRAS[i];
+      }
+    }
+
+    return null;
+  }
+
+  function indiceDe(elemento) {
+    var actual = elemento;
+
+    while (actual && actual !== contenedor) {
+      if (actual.classList && actual.classList.contains("sopa__celda")) {
+        return Number(actual.dataset.i);
+      }
+      actual = actual.parentNode;
+    }
+
+    return null;
+  }
+
+  /* ---------- Partida ---------- */
+
+  function estado(texto) {
+    if (textoEstado) {
+      textoEstado.textContent = texto;
+    }
+  }
+
+  function marcarFallo() {
+    var i;
+
+    for (i = 0; i < seleccion.length; i++) {
+      celdas[seleccion[i]].classList.add("sopa__celda--fallo");
+    }
+
+    window.clearTimeout(temporizadorFallo);
+    temporizadorFallo = window.setTimeout(function () {
+      var rojas = contenedor.querySelectorAll(".sopa__celda--fallo");
+
+      for (var j = 0; j < rojas.length; j++) {
+        rojas[j].classList.remove("sopa__celda--fallo");
+      }
+    }, 500);
+
+    if (navigator.vibrate) {
+      navigator.vibrate(80);
+    }
+  }
+
+  function ganar() {
+    terminado = true;
+    contenedor.classList.add("sopa--completa");
+    estado("¡Sopa resuelta! Las cinco palabras estaban escondidas ahí.");
+
+    if (cajaRespuesta) {
+      window.AD.escribirRespuesta(cajaRespuesta.querySelector("[data-respuesta]"), RESPUESTA);
+      cajaRespuesta.hidden = false;
+    }
+
+    if (navigator.vibrate) {
+      navigator.vibrate([60, 60, 90]);
+    }
+
+    window.setTimeout(function () {
+      if (window.AD && typeof window.AD.mostrarRespuesta === "function") {
+        window.AD.mostrarRespuesta(RESPUESTA);
+      }
+    }, 400);
+  }
+
+  function comprobar() {
+    var texto = textoDe(seleccion);
+    var palabra = texto.length > 1 ? palabraDe(texto) : null;
+    var i;
+
+    if (!palabra) {
+      marcarFallo();
+      marcar([]);
+      armada = null;
+      estado("Esa no es una de las palabras.");
+      return;
+    }
+
+    if (encontradas.indexOf(palabra) !== -1) {
+      marcar([]);
+      armada = null;
+      estado("«" + palabra + "» ya estaba. Palabras encontradas: " +
+        encontradas.length + " de " + PALABRAS.length);
+      return;
+    }
+
+    encontradas.push(palabra);
+
+    for (i = 0; i < seleccion.length; i++) {
+      celdas[seleccion[i]].classList.add("sopa__celda--hallada");
+    }
+
+    marcar([]);
+    armada = null;
+
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
+
+    estado("¡" + palabra + "! Palabras encontradas: " +
+      encontradas.length + " de " + PALABRAS.length);
+
+    if (encontradas.length === PALABRAS.length) {
+      ganar();
+    }
+  }
+
+  /* Un toque: arma la casilla. Otro toque en línea recta con ella: marca la
+     palabra (modo dos toques). */
+  function elegir(celda) {
+    if (armada !== null && armada !== celda) {
+      var camino = lineaEntre(armada, celda);
+
+      if (camino && camino.length > 1) {
+        marcar(camino);
+        presionando = false;   // el pointerup que venga no debe repetir esto
+        comprobar();
+        return;
+      }
+    }
+
+    armada = celda;
+    marcar([celda]);
+  }
+
+  contenedor.addEventListener("pointerdown", function (evento) {
+    var celda = indiceDe(evento.target);
+
+    if (celda === null || terminado) {
+      return;
+    }
+
+    evento.preventDefault();
+    presionando = true;
+    celdaInicio = celda;
+    elegir(celda);
+  });
+
+  contenedor.addEventListener("pointermove", function (evento) {
+    if (!presionando || celdaInicio === null) {
+      return;
+    }
+
+    // El dedo puede estar sobre cualquier casilla: se mira qué hay debajo
+    var bajo = document.elementFromPoint(evento.clientX, evento.clientY);
+    var celda = indiceDe(bajo);
+
+    if (celda === null) {
+      return;
+    }
+
+    var camino = lineaEntre(celdaInicio, celda);
+
+    if (camino) {
+      marcar(camino);
+    }
+  });
+
+  function soltar() {
+    if (!presionando) {
+      return;
+    }
+
+    presionando = false;
+    celdaInicio = null;
+
+    if (seleccion.length > 1) {
+      comprobar();
+    }
+  }
+
+  contenedor.addEventListener("pointerup", soltar);
+  contenedor.addEventListener("pointercancel", soltar);
+  document.addEventListener("pointerup", soltar);
+
+  /* Teclado: se elige la casilla con Enter o la barra espaciadora (los clics
+     con ratón o dedo ya los llevan los eventos pointer). */
+  contenedor.addEventListener("click", function (evento) {
+    if (evento.detail !== 0 || terminado) {
+      return;
+    }
+
+    var celda = indiceDe(evento.target);
+
+    if (celda !== null) {
+      elegir(celda);
+    }
+  });
+
+  function empezar() {
+    terminado = false;
+    presionando = false;
+    celdaInicio = null;
+    armada = null;
+    seleccion = [];
+    encontradas = [];
+
+    contenedor.classList.remove("sopa--completa");
+
+    if (cajaRespuesta) {
+      cajaRespuesta.hidden = true;
+    }
+
+    generar();
+    pintar();
+
+    estado("Palabras encontradas: 0 de " + PALABRAS.length);
+  }
+
+  if (botonOtra) {
+    botonOtra.addEventListener("click", empezar);
+  }
+
+  /* ---------- Arranque ---------- */
+
+  empezar();
+})();

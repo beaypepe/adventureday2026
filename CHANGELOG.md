@@ -2,6 +2,21 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Cuarto minijuego: la sopa de letras
+
+### Añadido
+- **`m8d6fc/index.html`** (carpeta asignada a la Sopa de letras): página con el Header y el Footer comunes, instrucciones, tablero de 12×12, contador «Palabras encontradas: N de 5», botón «Otra sopa» y el recuadro de la respuesta.
+- **`assets/js/sopa.js`**: lógica del juego.
+  - Cinco palabras escondidas: `ADVENTURE`, `GEOCACHING`, `ETAPA`, `COORDENADAS` y `EVENTO`. Se colocan en las 8 direcciones (horizontal, vertical y diagonal, hacia delante o hacia atrás) y el resto de casillas se rellena con letras al azar. Si alguna palabra no cabe, la sopa se genera otra vez.
+  - **Las palabras no se listan en la página**, tal y como pidió la organización: las instrucciones solo dicen que hay cinco y que son «sobre los Adventure Lab y el geocaching». Cuando se acierta, la palabra aparece en el mensaje de estado y sus letras se quedan marcadas en verde.
+  - **Dos formas de marcar, en el mismo gesto:** arrastrando el dedo de la primera letra a la última, o tocando una y luego la otra (útil con casillas pequeñas). Solo valen líneas rectas.
+  - Si la selección no es ninguna de las palabras, las casillas parpadean en rojo y se avisa; si ya estaba encontrada, se dice también.
+  - La respuesta se guarda codificada (`window.AD.abrir("…", "m8d6fc:26")`) y se revela con el modal y el recuadro al encontrar las cinco.
+- **`assets/css/styles.css`**: bloque de la sopa (`.sopa`, `.sopa__celda` y los estados marcada, hallada, fallo y sopa completa). El tamaño de letra se adapta al ancho del móvil con `clamp()`.
+
+### Notas
+- Verificado en Chromium con toques reales: 144 casillas en 12 columnas, las cinco palabras presentes en la rejilla generada, selección por arrastre (11 letras de `COORDENADAS`), dos toques en sentido inverso (`ETAPA`), aviso al fallar, victoria con la respuesta correcta y «Otra sopa» con una rejilla distinta. 0 errores de JavaScript. Sin desbordes a 320, 360, 390 y 430 px (casilla de 23,5 a 32,7 px).
+
 ## 2026-11-10 — Llegan las cartas del juego de parejas
 
 ### Añadido

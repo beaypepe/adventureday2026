@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d65b33">
+  <link rel="icon" type="image/png" href="/adventureday2026/assets/img/favicon.png?v=20261110160711">
+  <link rel="apple-touch-icon" href="/adventureday2026/assets/img/apple-touch-icon.png?v=20261110160711">
+  <title>Sopa de letras — Adventure Day 2026</title>
+  <meta name="description" content="Minijuego del Adventure Day 2026: encuentra las palabras escondidas sobre el geocaching.">
+  <!-- Marca de tiempo (?v=) en CSS, JS e imágenes: obliga al móvil a descargar la
+       versión nueva en lugar de usar la que tiene en caché. Se actualiza con
+       tools/bump-versions.sh antes de publicar cambios en assets/. -->
+  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css?v=20261110160711">
+</head>
+<body>
+
+  <!-- Header (común a todas las páginas). Si logo.png no carga, se oculta y aparece el texto. -->
+  <header class="site-header">
+    <a class="site-header__link" href="/adventureday2026/">
+      <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png?v=20261110160711" alt="Adventure Day 2026"
+           onerror="this.hidden = true; this.nextElementSibling.hidden = false;">
+      <span class="site-header__title" hidden>Adventure Day 2026</span>
+    </a>
+  </header>
+
+  <main class="site-main game">
+    <h1>Sopa de letras</h1>
+    <p id="instrucciones">Hay cinco palabras escondidas, todas sobre los Adventure Lab y el geocaching. Desliza el dedo sobre las letras, o toca la primera y la última.</p>
+
+    <!-- Tablero 12x12. Las celdas las crea sopa.js. -->
+    <div class="sopa" id="sopa" role="group" aria-describedby="instrucciones" aria-label="Sopa de letras"></div>
+
+    <p class="game__estado" id="estado" role="status">Palabras encontradas: 0 de 5</p>
+
+    <button class="btn btn--secundario" id="otra" type="button">Otra sopa</button>
+
+    <p class="game__respuesta" id="respuesta-final" role="status" hidden>Respuesta de esta etapa:<strong data-respuesta></strong></p>
+  </main>
+
+  <!-- Footer (común a todas las páginas) -->
+  <footer class="site-footer">
+    Una ocurrencia de <a href="https://beaypepe.com" target="_blank" rel="noopener">BeayPepe</a>
+  </footer>
+
+  <script src="/adventureday2026/assets/js/common.js?v=20261110160711"></script>
+  <script src="/adventureday2026/assets/js/sopa.js?v=20261110160711"></script>
+
+</body>
+</html>

@@ -24,7 +24,8 @@ Lista de tareas para el desarrollo completo del proyecto.
   - *Nota:* la respuesta real ya está incorporada, codificada, en `assets/js/puzzle.js`.
 - [x] **Juego de parejas** (`3n9w2q/`): implementado con cuadrícula 4x5 (20 cartas / 10 parejas) y barajado Fisher-Yates. Giro 3D al tocar, solo dos cartas a la vista, las parejas acertadas desaparecen (dejando el hueco vacío, sin recolocar el resto) y las falladas se tapan a los 800 ms. Usa `assets/img/cards/back.png` y `card1.png` a `card10.png` (400×400 px recomendado); mientras no existan, cada carta muestra su emoji y el número de pareja. Página `3n9w2q/index.html` y lógica en `assets/js/parejas.js`.
   - *Nota:* la respuesta real ya está incorporada, codificada, en `assets/js/parejas.js`.
-- [ ] **Sopa de letras táctil** (`m8d6fc/`): Confirmar lista definitiva de palabras (ej. `GEOCACHING`, `ADVENTURELAB`, `EVENTO`) e implementar cuadrícula adaptada (12x12) con soporte táctil tanto por arrastre como por toque en primera y última letra.
+- [x] **Sopa de letras táctil** (`m8d6fc/`): cuadrícula 12x12 con cinco palabras escondidas en las 8 direcciones (`ADVENTURE`, `GEOCACHING`, `ETAPA`, `COORDENADAS` y `EVENTO`). No se listan en la página: solo se avisa de que hay cinco y del tema. Se marcan por arrastre o con dos toques (primera y última letra), las encontradas se quedan en verde y las erróneas parpadean en rojo. Contador «Palabras encontradas: N de 5» y botón «Otra sopa». Página `m8d6fc/index.html` y lógica en `assets/js/sopa.js`.
+  - *Nota:* la respuesta real ya está incorporada, codificada, en `assets/js/sopa.js`.
 - [ ] **Arcade «Atrapa el logo»** (`5h1j7v/`): Implementar juego en `<canvas>` con control táctil deslizante horizontal usando `assets/img/arcade/item-good.png` y `item-bad.png` (128x128px, con fallback vectorial). Victoria al atrapar 26 logos; penalización o reinicio al chocar con bombas.
 
 ## Fase 4: Activos Gráficos y Despliegue Final

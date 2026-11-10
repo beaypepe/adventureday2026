@@ -85,11 +85,12 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 * **Interacción:** Al tocar dos cartas, giran con efecto 3D (`rotateY(180deg)`). Si coinciden, se marcan con marco verde y **desaparecen** medio segundo después: el hueco se queda vacío y las demás cartas **no se recolocan** (la carta se oculta con `visibility`, sin sacarla de la cuadrícula). Si no coinciden, vuelven a voltearse tras `800ms`. Gana al descubrir las 10 parejas.
 
 ### Etapa 4: Sopa de Letras Táctil
-* **Palabras a buscar:** Se confirmarán al programar la etapa, pero se debe contemplar por defecto el uso de palabras largas como `"GEOCACHING"`, `"ADVENTURELAB"` (12 letras) y `"EVENTO"` (más alguna adicional si se decide).
-* **Tamaño de cuadrícula:** Dado que `"ADVENTURELAB"` tiene **12 letras**, la cuadrícula debe adaptarse dinámicamente a la palabra más larga (por ejemplo, **12×12 celdas**). Las palabras a buscar se muestran en una lista superior/inferior y se tachan al encontrarlas.
-* **Interacción táctil adaptada a móvil (Doble modalidad):**
-  1. **Por arrastre:** Deslizar el dedo desde la primera hasta la última letra (`touchstart` + `touchmove` calculando la línea recta mediante `document.elementFromPoint`).
-  2. **Por dos toques (ideal para celdas pequeñas en 12x12):** Tocar la primera letra de la palabra y luego tocar la última letra; si forman línea recta válida y coinciden con una palabra buscada, se marca como encontrada.
+* **Palabras escondidas (decisión del evento):** `ADVENTURE`, `GEOCACHING`, `ETAPA`, `COORDENADAS` y `EVENTO`. **No se listan en la página:** las instrucciones solo avisan de que hay cinco palabras «sobre los Adventure Lab y el geocaching», para que haya que buscarlas. La palabra solo se ve cuando se encuentra (mensaje de estado) y sus letras se quedan marcadas en verde.
+* **Tamaño de cuadrícula:** **12×12 celdas**, porque la palabra más larga tiene 11 letras. Las palabras se colocan en las 8 direcciones (horizontal, vertical y diagonal, hacia delante o hacia atrás) y el resto se rellena con letras al azar. Si alguna no cabe, se genera la sopa de nuevo.
+* **Interacción táctil adaptada a móvil (Doble modalidad), en el mismo gesto:**
+  1. **Por arrastre:** Deslizar el dedo desde la primera hasta la última letra (`pointerdown` + `pointermove` mirando qué casilla hay debajo con `document.elementFromPoint`).
+  2. **Por dos toques (ideal para celdas pequeñas):** Tocar la primera letra y luego la última; la casilla tocada queda resaltada esperando el segundo toque.
+  * Solo valen líneas rectas (horizontal, vertical o diagonal). Si la selección no es una de las palabras, las casillas parpadean en rojo y se avisa en el mensaje de estado.
 
 ### Etapa 5: Mini-Juego Arcade "Atrapa el Logo" (HTML5 Canvas)
 * **Activos gráficos:**
@@ -124,7 +125,8 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 │   │   ├── common.js           # Funciones compartidas (fecha del Lab, modal de respuesta)
 │   │   ├── laberinto.js       # Lógica del laberinto táctil
 │   │   ├── puzzle.js          # Lógica del puzzle deslizante
-│   │   └── parejas.js         # Lógica del juego de parejas
+│   │   ├── parejas.js         # Lógica del juego de parejas
+│   │   └── sopa.js            # Lógica de la sopa de letras
 │   └── img/
 │       ├── favicon.png         # Icono del sitio en la pestaña (180x180px)
 │       ├── apple-touch-icon.png # Icono para iOS (180x180px)
