@@ -2,6 +2,22 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Quinto minijuego: el arcade de los logos
+
+### Añadido
+- **`5h1j7v/index.html`** (carpeta asignada al Arcade «Atrapa el logo»): página con el Header y el Footer comunes, instrucciones, `<canvas>` de juego, contador «Logos: N de 26», botón «Empezar de nuevo» y el recuadro de la respuesta.
+- **`assets/js/arcade.js`**: lógica del juego.
+  - Una cesta en la parte de abajo se mueve con el dedo (o el ratón) por todo el ancho del canvas (`pointerdown`/`pointermove` con `setPointerCapture`).
+  - Caen logos y bombas desde arriba. Cada logo suma uno; **una bomba reinicia el contador a 0**, con un fogonazo rojo, una vibración corta (si el móvil la admite) y el aviso «¡Bomba! Vuelves a empezar.». **No hay vidas**, tal y como se decidió para el evento.
+  - La dificultad crece con los logos atrapados: las figuras caen más rápido, aparecen más seguidas y hay más bombas (del 16 % al 38 %, con un máximo de 14 figuras a la vez).
+  - **Se gana al atrapar 26 logos.** La respuesta se guarda codificada (`window.AD.abrir("…", "5h1j7v:26")`) y se revela con el modal y el recuadro junto al mensaje «¡Has atrapado los 26 logos!».
+  - Usa `assets/img/arcade/item-good.png`, `item-bad.png` y `player.png` cuando existen; mientras tanto pinta reservas vectoriales (globo naranja con anillo blanco, círculo negro con cruz blanca y cesta verde) para poder jugar desde ya.
+- **`assets/css/styles.css`**: bloque del arcade (`.arcade`), con el ancho de los demás juegos menos los 8 px de margen (`--juego-inset`), borde oscuro y `touch-action: none` para que el dedo no desplace la página.
+
+### Notas
+- Verificado en Chromium a 320, 360, 390 y 430 px: canvas de 304×355, 344×401, 374×436 y 414×483 px con 8 px a cada lado y sin desbordes horizontales. La cesta sigue al dedo (centro en 69 px para un toque al 20 % del ancho), se atraparon 11 logos seguidos, una bomba dejó el contador a 0 con su aviso y la victoria con los 26 logos abrió el modal con la respuesta correcta. Con PNG de prueba en su sitio, el canvas dibuja las tres imágenes. 0 errores de JavaScript.
+- **Pendiente:** los tres dibujos definitivos en `assets/img/arcade/` (`item-good.png` y `item-bad.png` de 128×128 px y `player.png` de 160×100 px, PNG con transparencia). Se pueden subir en cualquier momento: el juego los usa sin tocar el código.
+
 ## 2026-11-10 — Cuarto minijuego: la sopa de letras
 
 ### Añadido

@@ -571,6 +571,21 @@ p {
   border-radius: 8px;
 }
 
+/* ---------- Arcade ---------- */
+.arcade {
+  display: block;
+  /* Mismo ancho que los otros juegos: casi todo, con un respiro a cada lado.
+     La altura la fija el JavaScript (un poco más alta que ancha). */
+  width: calc(100% + 2 * var(--page-gutter) - 2 * var(--juego-inset));
+  margin: 8px calc(var(--juego-inset) - var(--page-gutter)) 0;
+  background: var(--color-white);
+  box-shadow: 0 0 0 2px #1a1a1a, 0 6px 16px rgba(0, 0, 0, 0.18);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .game__estado {
   margin: 16px 0 0;
   min-height: 2.6em;

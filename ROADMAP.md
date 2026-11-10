@@ -26,9 +26,10 @@ Lista de tareas para el desarrollo completo del proyecto.
   - *Nota:* la respuesta real ya está incorporada, codificada, en `assets/js/parejas.js`.
 - [x] **Sopa de letras táctil** (`m8d6fc/`): cuadrícula 12x12 con cinco palabras escondidas en las 8 direcciones (`ADVENTURE`, `GEOCACHING`, `ETAPA`, `COORDENADAS` y `EVENTO`). No se listan en la página: solo se avisa de que hay cinco y del tema. Se marcan por arrastre o con dos toques (primera y última letra), las encontradas se quedan en verde y las erróneas parpadean en rojo. Contador «Palabras encontradas: N de 5» y botón «Otra sopa». Página `m8d6fc/index.html` y lógica en `assets/js/sopa.js`.
   - *Nota:* la respuesta real ya está incorporada, codificada, en `assets/js/sopa.js`.
-- [ ] **Arcade «Atrapa el logo»** (`5h1j7v/`): Implementar juego en `<canvas>` con control táctil deslizante horizontal usando `assets/img/arcade/item-good.png` y `item-bad.png` (128x128px, con fallback vectorial). Victoria al atrapar 26 logos; penalización o reinicio al chocar con bombas.
+- [x] **Arcade «Atrapa el logo»** (`5h1j7v/`): implementado en `<canvas>` de ancho completo (8 px de margen) y alto `ancho × 7/6`, con control táctil deslizante horizontal sobre toda la pantalla. Caen logos y bombas con dificultad creciente (hasta 38 % de bombas y 14 figuras). **Sin vidas:** una bomba reinicia el contador a 0 y avisa «¡Bomba! Vuelves a empezar.». **Se gana al atrapar 26 logos.** Usa `assets/img/arcade/item-good.png`, `item-bad.png` y `player.png` (128×128 y 160×100 px); mientras no existan, el canvas dibuja reservas vectoriales. Página `5h1j7v/index.html` y lógica en `assets/js/arcade.js`.
+  - *Nota:* la respuesta real ya está incorporada, codificada, en `assets/js/arcade.js`. Pendientes solo los tres dibujos de `assets/img/arcade/`.
 
 ## Fase 4: Activos Gráficos y Despliegue Final
 - [ ] Subir las imágenes definitivas (`logo.png`, `puzzle.png`, las 11 imágenes de `cards/` y las imágenes de `arcade/`).
-  - *Avance (2026-11-10):* subidas `logo.png` (600×160, ya visible en el Header) y `puzzle.png` (600×600). Pendientes las imágenes de `cards/` y `arcade/`.
+  - *Avance (2026-11-10):* subidas `logo.png` (600×160, ya visible en el Header), `puzzle.png` (600×600) y las 11 cartas de `cards/`. Pendientes solo los tres dibujos de `arcade/` (`item-good.png`, `item-bad.png` y `player.png`).
 - [ ] Verificar en GitHub Pages (`https://beaypepe.github.io/adventureday2026/`) desde móviles reales tanto las 5 rutas válidas como el salto a `404.html` en rutas inventadas.
