@@ -7,12 +7,13 @@ Lista de tareas para el desarrollo completo del proyecto.
 - [ ] Definir los 5 nombres aleatorios para las carpetas de las etapas (para que los asistentes no puedan adivinar las URLs), las 5 respuestas de las etapas y la URL del Adventure Lab.
   - *Avance (2026-11-10):* definida la URL del Adventure Lab y enlazada en `index.html`. Pendientes los 5 nombres de carpeta y las 5 respuestas.
 - [ ] Crear la hoja de estilos global (`assets/css/styles.css`) y utilidades (`assets/js/common.js`) con diseño Mobile-Only, bloqueo de scroll en áreas táctiles, colores corporativos (`#d65b33`, `#ffffff`, `#02874d`), Header con fallback automático para `logo.png`, Footer con enlace a BeayPepe y modal de revelación de respuesta.
-  - *Avance (2026-11-10):* creada la base de `assets/css/styles.css` (paleta corporativa, reset, layout móvil, Header con fallback del logo, Footer y botón). Pendientes `assets/js/common.js`, el bloqueo de scroll en áreas táctiles y el modal de revelación de respuesta.
+  - *Avance (2026-11-10):* creada la base de `assets/css/styles.css` (paleta corporativa, reset, layout móvil, Header con fallback del logo, Footer, botón e imagen de acceso al Lab) y `assets/js/common.js` (bloqueo por fecha del enlace al Adventure Lab). Pendientes el bloqueo de scroll en áreas táctiles y el modal de revelación de respuesta.
 - [x] Añadir marca de tiempo (`?v=`) a las referencias de `assets/` (CSS, JS e imágenes) y el script `tools/bump-versions.sh` para actualizarla, de modo que los móviles no sigan usando versiones antiguas desde la caché.
 
 ## Fase 2: Páginas Generales y Captura de QRs Falsos
-- [x] Crear `index.html` (Página de inicio accesible desde la descripción del evento con instrucciones breves de la dinámica de los QR en la mesa y botón de acceso al Adventure Lab).
-- [ ] Crear `404.html` (Página a la que redirigirán automáticamente todos los códigos QR incorrectos/señuelos con el mensaje "Aquí no hay nada... sigue buscando", usando rutas absolutas a `/adventureday2026/assets/`).
+- [x] Crear `index.html` (Página de inicio accesible desde la descripción del evento: instrucciones breves de los cinco códigos QR, los cinco minijuegos y las cinco etapas, y acceso al Adventure Lab mediante imagen).
+- [x] Crear `404.html` (Página a la que redirigirán automáticamente todos los códigos QR incorrectos/señuelos con el mensaje «Aquí no hay nada… ¡sigue buscando!», usando rutas absolutas a `/adventureday2026/assets/` y sin dar pistas sobre las rutas reales).
+- [x] Abrir el enlace al Adventure Lab solo el día del evento: desde `assets/js/common.js`, antes del 29 de noviembre de 2026 (00:00, hora peninsular) se muestra un aviso al tocar la imagen y no se navega.
 
 ## Fase 3: Desarrollo de los 5 Minijuegos (En sus carpetas aleatorias)
 - [ ] **Etapa 1 — Laberinto Táctil:** Implementar en `<canvas>` con pasillos anchos aptos para dedos (grid 6x6 a 8x8). Permitir rozar paredes pero reiniciar el recorrido si el trazo atraviesa un muro o si se levanta el dedo para saltar camino.

@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#d65b33">
   <title>Adventure Day 2026 — BeayPepe</title>
-  <meta name="description" content="Adventure Day 2026 de BeayPepe: encuentra los códigos QR buenos, supera los minijuegos y completa el Adventure Lab.">
+  <meta name="description" content="Adventure Day 2026 de BeayPepe: busca los cinco códigos QR, supera los cinco minijuegos y completa el Adventure Lab.">
   <!-- Marca de tiempo (?v=) en CSS, JS e imágenes: obliga al móvil a descargar la
        versión nueva en lugar de usar la que tiene en caché. Se actualiza con
        tools/bump-versions.sh antes de publicar cambios en assets/. -->
-  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css?v=20261110111055">
+  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css?v=20261110111944">
 </head>
 <body>
 
   <!-- Header (común a todas las páginas). Si logo.png no carga, se oculta y aparece el texto. -->
   <header class="site-header">
-    <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png?v=20261110111055" alt="Adventure Day 2026"
+    <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png?v=20261110111944" alt="Adventure Day 2026"
          onerror="this.hidden = true; this.nextElementSibling.hidden = false;">
     <span class="site-header__title" hidden>Adventure Day 2026</span>
   </header>
@@ -26,21 +26,30 @@
 
     <h2>¿Cómo funciona?</h2>
     <ol class="steps">
-      <li><strong>Busca en la mesa.</strong> Encontrarás un montón de códigos QR, pero solo 5 esconden un reto. El resto son señuelos.</li>
-      <li><strong>Escanea y juega.</strong> Cada QR bueno abre un minijuego rápido en tu móvil.</li>
-      <li><strong>Consigue la respuesta.</strong> Al superar el minijuego, verás en pantalla la respuesta de esa etapa.</li>
-      <li><strong>Valida la etapa.</strong> Introduce la respuesta en la app Adventure Lab y ve a por la siguiente.</li>
+      <li><strong>Encuentra los cinco códigos QR.</strong> Están repartidos por la mesa del evento.</li>
+      <li><strong>Supera los cinco minijuegos.</strong> Cada código abre un reto rápido en tu móvil: complétalo para conseguir la respuesta de una etapa.</li>
+      <li><strong>Completa el Adventure Lab.</strong> Introduce las respuestas en la app y resuelve las cinco etapas.</li>
     </ol>
 
-    <!-- Enlace en la misma pestaña (sin target="_blank") para que el móvil pueda abrir directamente la app Adventure Lab -->
-    <a class="btn" href="https://labs.geocaching.com/goto/f07cb7fa-078f-4148-9afd-9f92e5e0029f">Abrir el Adventure Lab</a>
-    <p class="note">El Adventure Lab no estará visible hasta el día del evento.</p>
+    <!-- Imagen-enlace al Adventure Lab. common.js impide abrirlo antes del día del evento. -->
+    <div class="lab">
+      <a class="lab__link" href="https://labs.geocaching.com/goto/f07cb7fa-078f-4148-9afd-9f92e5e0029f" data-lab-link>
+        <img class="lab__img" src="/adventureday2026/assets/img/puzzle.png?v=20261110111944" alt="Abrir el Adventure Lab"
+             width="600" height="600">
+      </a>
+      <p class="lab__hint">Toca la imagen para abrir el Adventure Lab.</p>
+      <p class="lab__locked" role="status" data-lab-locked hidden>
+        El Adventure Lab todavía no está activo. Podrás abrirlo a partir del <strong>29 de noviembre</strong>.
+      </p>
+    </div>
   </main>
 
   <!-- Footer (común a todas las páginas) -->
   <footer class="site-footer">
     Una ocurrencia de <a href="https://beaypepe.com" target="_blank" rel="noopener">BeayPepe</a>
   </footer>
+
+  <script src="/adventureday2026/assets/js/common.js?v=20261110111944"></script>
 
 </body>
 </html>

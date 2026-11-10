@@ -2,6 +2,29 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Inicio más discreto, acceso al Lab con imagen y página 404
+
+### Añadido
+- **`404.html`**: página señuelo que GitHub Pages muestra automáticamente en cualquier ruta inexistente (todos los QR falsos).
+  - Mismo Header y Footer que el resto de páginas; mensaje «Aquí no hay nada…» + «¡Sigue buscando!» centrado en pantalla, con un discreto enlace «Volver al inicio».
+  - Rutas absolutas `/adventureday2026/assets/...` con su `?v=`, sin ninguna pista sobre las rutas reales de las etapas, y `<meta name="robots" content="noindex">` para que no la indexen los buscadores.
+- **`assets/js/common.js`**: primer bloque de utilidades compartidas por todas las páginas.
+  - `LAB_OPEN_AT = Date.UTC(2026, 10, 28, 23, 0, 0)`: 29 de noviembre de 2026 a las 00:00 en la España peninsular (UTC+1). Al ser un instante fijo, no depende de la zona horaria configurada en el teléfono.
+  - Antes de esa fecha, el enlace al Adventure Lab (`[data-lab-link]`) no navega: muestra el aviso `[data-lab-locked]` y lo desplaza a la vista. A partir de la fecha el enlace funciona con normalidad.
+  - Sin JavaScript no hay bloqueo (el `<a href>` funciona igual), pero el Adventure Lab tampoco está activo antes del evento.
+
+### Modificado
+- **`index.html`**:
+  - Textos con menos pistas: tres pasos (encuentra los cinco QR / supera los cinco minijuegos / completa el Adventure Lab). Ya no se menciona la mesa del evento ni que haya QR señuelos, que será la sorpresa del día.
+  - El botón verde se sustituye por `assets/img/puzzle.png` (260×260 px, esquinas redondeadas y sombra) como imagen-enlace al Adventure Lab, con el texto «Toca la imagen para abrir el Adventure Lab».
+  - El aviso de que el Lab todavía no está activo solo aparece al tocar la imagen antes del 29 de noviembre.
+- **`assets/css/styles.css`**: nuevas clases `.lab`, `.lab__link`, `.lab__img`, `.lab__hint`, `.lab__locked`, `.lead` y `.site-main--404` (centrado vertical del mensaje), más `.note a` en negrita.
+
+### Notas
+- Probado en Chromium con reloj simulado: el 10-nov y el 28-nov a las 23:59:59 (UTC) bloquean y muestran el aviso; desde el 29-nov a las 00:00:01 (hora peninsular) el enlace navega al Lab.
+- Sin desbordamiento horizontal a 320, 360, 390 y 430 px. `404.html` responde con estado HTTP 404 y sin errores de JavaScript.
+- `puzzle.png` pesa 455 KB (es también la imagen del puzzle de la etapa 2): se puede optimizar si conviene.
+
 ## 2026-11-10 — Versionado de los activos para evitar la caché del móvil
 
 ### Añadido
