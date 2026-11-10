@@ -19,6 +19,7 @@
 
   var canvas = document.getElementById("laberinto");
   var textoEstado = document.getElementById("estado");
+  var botonReiniciar = document.getElementById("reiniciar");
   var cajaRespuesta = document.getElementById("respuesta-final");
 
   if (!canvas) {
@@ -453,6 +454,12 @@
   canvas.addEventListener("pointerup", soltar);
   canvas.addEventListener("pointercancel", soltar);
   canvas.addEventListener("pointerleave", soltar);
+
+  if (botonReiniciar) {
+    botonReiniciar.addEventListener("click", function () {
+      reiniciar();
+    });
+  }
 
   window.addEventListener("resize", ajustarTamano);
 

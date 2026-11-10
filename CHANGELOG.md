@@ -2,6 +2,15 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Vuelve el botón «Empezar de nuevo»
+
+### Modificado
+- **`b4x8rf/index.html`** y **`assets/js/laberinto.js`**: se recupera el botón «Empezar de nuevo» debajo del laberinto, con el mismo comportamiento de antes: reinicia el recorrido del mismo laberinto (no genera uno nuevo) y, si ya se había ganado, oculta el recuadro de la respuesta para poder volver a jugar. Con el botón la página queda menos vacía y el Footer sigue viéndose sin hacer scroll.
+- **`AGENTS.md`** y **`ROADMAP.md`**: la descripción de la página vuelve a incluir el botón (los avisos siguen solo en el párrafo invisible `.sr-only`).
+
+### Notas
+- Verificado en Chromium (360×780): tras ganar y pulsar el botón, el recuadro de la respuesta se oculta y el recorrido se puede repetir hasta ganar otra vez, con el modal mostrando la respuesta. 0 errores de JavaScript.
+
 ## 2026-11-10 — El laberinto se queda solo en su página
 
 ### Modificado

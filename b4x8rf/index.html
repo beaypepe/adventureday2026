@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#d65b33">
-  <link rel="icon" type="image/png" href="/adventureday2026/assets/img/favicon.png?v=20261110151517">
-  <link rel="apple-touch-icon" href="/adventureday2026/assets/img/apple-touch-icon.png?v=20261110151517">
+  <link rel="icon" type="image/png" href="/adventureday2026/assets/img/favicon.png?v=20261110152637">
+  <link rel="apple-touch-icon" href="/adventureday2026/assets/img/apple-touch-icon.png?v=20261110152637">
   <title>Laberinto — Adventure Day 2026</title>
   <meta name="description" content="Minijuego del Adventure Day 2026: llega a la meta del laberinto arrastrando el dedo.">
   <!-- Marca de tiempo (?v=) en CSS, JS e imágenes: obliga al móvil a descargar la
        versión nueva en lugar de usar la que tiene en caché. Se actualiza con
        tools/bump-versions.sh antes de publicar cambios en assets/. -->
-  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css?v=20261110151517">
+  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css?v=20261110152637">
 </head>
 <body>
 
   <!-- Header (común a todas las páginas). Si logo.png no carga, se oculta y aparece el texto. -->
   <header class="site-header">
     <a class="site-header__link" href="/adventureday2026/">
-      <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png?v=20261110151517" alt="Adventure Day 2026"
+      <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png?v=20261110152637" alt="Adventure Day 2026"
            onerror="this.hidden = true; this.nextElementSibling.hidden = false;">
       <span class="site-header__title" hidden>Adventure Day 2026</span>
     </a>
@@ -33,6 +33,8 @@
     <!-- Avisos del juego para lectores de pantalla: no se ven en la página -->
     <p class="sr-only" id="estado" role="status">La meta cambia de sitio en cada partida. Puedes rozar las paredes, pero no atravesarlas: si lo haces, vuelves a empezar.</p>
 
+    <button class="btn btn--secundario" id="reiniciar" type="button">Empezar de nuevo</button>
+
     <p class="game__respuesta" id="respuesta-final" role="status" hidden>Respuesta de esta etapa:<strong data-respuesta></strong></p>
   </main>
 
@@ -41,8 +43,8 @@
     Una ocurrencia de <a href="https://beaypepe.com" target="_blank" rel="noopener">BeayPepe</a>
   </footer>
 
-  <script src="/adventureday2026/assets/js/common.js?v=20261110151517"></script>
-  <script src="/adventureday2026/assets/js/laberinto.js?v=20261110151517"></script>
+  <script src="/adventureday2026/assets/js/common.js?v=20261110152637"></script>
+  <script src="/adventureday2026/assets/js/laberinto.js?v=20261110152637"></script>
 
 </body>
 </html>
