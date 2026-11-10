@@ -2,6 +2,14 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Llegan las cartas del juego de parejas
+
+### Añadido
+- **`assets/img/cards/`**: las 11 imágenes definitivas (`back.png` y `card1.png` a `card10.png`), todas de **400×400 px** y PNG. El juego las usa automáticamente: cada carta comprueba su archivo y, si carga, tapa el emoji y el número de reserva. Los anversos son chinchetas de colores sobre fondo blanco (naranja, verde, morado, rojo, azul, amarillo, verde neón, granate, negro y una solo de contorno) y el reverso es la imagen del globo con «AdventureDay».
+
+### Notas
+- Las cartas se parecen dos a dos: la 2 (verde `#02864D`) con la 7 (verde neón `#00FE4E`) y la 4 (rojo `#FE0000`) con la 8 (granate `#970000`). Se distinguen, pero si en el evento se confunden a menudo, basta con dejar visible el número pequeño de la esquina también con imagen.
+
 ## 2026-11-10 — Las parejas acertadas desaparecen
 
 ### Modificado
