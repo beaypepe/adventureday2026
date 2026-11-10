@@ -2,6 +2,17 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — El logo del Header lleva al inicio y la 404 deja de enlazarlo
+
+### Modificado
+- **`index.html` y `404.html`**: el logo del Header (y el texto de reserva) van ahora dentro de `.site-header__link`, un enlace a `/adventureday2026/`.
+- **`404.html`**: eliminado el enlace «Volver al inicio» y el párrafo que lo contenía. Quien llega desde un QR señuelo ya no tiene un camino directo de vuelta; si lo busca, el logo del Header lo lleva al inicio.
+- **`assets/css/styles.css`**: nueva regla `.site-header__link` (bloque, color heredado para que el texto de reserva siga en blanco, sin subrayado, sin destello al tocar, `:active` al 85 % de opacidad y `:focus-visible` con contorno blanco). Eliminada la regla `.note a`, que ya no se usaba.
+- **`AGENTS.md`**: el apartado 2 exige que el logo del Header enlace al inicio en todas las páginas y el apartado 3 aclara que `404.html` no lleva enlaces de vuelta al inicio.
+
+### Notas
+- Comprobado en Chromium: desde la 404, el clic en el logo carga la portada; bloqueando `logo.png` aparece el texto de reserva dentro del mismo enlace; Header de 75 px, logo de 206×55 px y sin desbordes a 360 px.
+
 ## 2026-11-10 — Favicon propio y textos de inicio ajustados
 
 ### Añadido

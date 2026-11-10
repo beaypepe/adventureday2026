@@ -14,6 +14,7 @@ Lista de tareas para el desarrollo completo del proyecto.
 ## Fase 2: Páginas Generales y Captura de QRs Falsos
 - [x] Crear `index.html` (Página de inicio accesible desde la descripción del evento: instrucciones breves de los cinco códigos QR, los cinco minijuegos y las cinco etapas, y acceso al Adventure Lab mediante imagen).
 - [x] Crear `404.html` (Página a la que redirigirán automáticamente todos los códigos QR incorrectos/señuelos con el mensaje «Aquí no hay nada… ¡sigue buscando!», usando rutas absolutas a `/adventureday2026/assets/` y sin dar pistas sobre las rutas reales).
+  - *Avance (2026-11-10):* retirado el enlace «Volver al inicio»; el acceso de vuelta al inicio queda en el logo del Header, común a todas las páginas.
 - [x] Abrir el enlace al Adventure Lab solo el día del evento: desde `assets/js/common.js`, antes del 29 de noviembre de 2026 (00:00, hora peninsular) se muestra un aviso al tocar la imagen y no se navega.
 
 ## Fase 3: Desarrollo de los 5 Minijuegos (En sus carpetas aleatorias)

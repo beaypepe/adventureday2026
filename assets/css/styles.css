@@ -84,6 +84,23 @@ body {
   object-fit: contain; /* Nunca deforma el logo, tenga la proporción que tenga */
 }
 
+/* El logo del Header es el acceso al inicio en todas las páginas */
+.site-header__link {
+  display: block;
+  color: inherit; /* Si se muestra el texto de reserva, sigue siendo blanco */
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.site-header__link:active {
+  opacity: 0.85;
+}
+
+.site-header__link:focus-visible {
+  outline: 3px solid var(--color-white);
+  outline-offset: 3px;
+}
+
 /* ---------- Contenido ---------- */
 .site-main {
   flex: 1 0 auto;
@@ -250,10 +267,6 @@ p {
   font-size: 0.875rem;
   text-align: center;
   text-wrap: balance;
-}
-
-.note a {
-  font-weight: 700;
 }
 
 /* Frase destacada (página señuelo 404) */

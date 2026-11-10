@@ -28,6 +28,7 @@ El proyecto se consumirá **exclusivamente desde teléfonos móviles** durante e
 * **Header (Común a todas las páginas):**
   * Centrado, color de fondo `#d65b33`.
   * Contiene la imagen `/adventureday2026/assets/img/logo.png` centrada (resolución recomendada: `600x160px`, altura máxima en CSS `55px`).
+  * **Enlace al inicio:** el logo (o, si falla, el texto de reserva) va dentro de un enlace a la página de inicio (`/adventureday2026/`) en **todas** las páginas. Es el único acceso al inicio desde el resto de páginas.
   * **Regla de Fallback del Logo:** Si `logo.png` no existe o falla al cargar, debe ocultarse automáticamente y mostrar el texto `"Adventure Day 2026"` estilizado en blanco y negrita mediante el evento `onerror` en el HTML.
 * **Favicon (Común a todas las páginas):**
   * Icono del sitio: `/adventureday2026/assets/img/favicon.png` (180x180px, fondo transparente) y, para iOS, `/adventureday2026/assets/img/apple-touch-icon.png` (180x180px, fondo blanco).
@@ -47,7 +48,7 @@ Durante el evento habrá entre 20 y 30 códigos QR físicos sobre la mesa (los c
 2. **20-25 Enlaces Incorrectos / Señuelos (Captura mediante `404.html`):**
    * El resto de códigos QR físicos tendrán URLs falsas con rutas aleatorias que **NO existen** en el repositorio (ej. `https://beaypepe.github.io/adventureday2026/uyzxcvhjaht`).
    * Aprovechando el comportamiento nativo de **GitHub Pages**, cualquier ruta inexistente cargará automáticamente el archivo **`404.html`** situado en la raíz del repositorio.
-   * La página **`404.html`** debe mantener exactamente el mismo diseño corporativo (Header naranja, fondo blanco, Footer verde) y mostrar de forma clara y simpática un mensaje tipo: **"Aquí no hay nada... ¡sigue buscando!"**, sin dar pistas de cuáles son las rutas reales.
+   * La página **`404.html`** debe mantener exactamente el mismo diseño corporativo (Header naranja, fondo blanco, Footer verde) y mostrar de forma clara y simpática un mensaje tipo: **"Aquí no hay nada... ¡sigue buscando!"**, sin dar pistas de cuáles son las rutas reales y sin enlaces de vuelta al inicio (para volver se usa el logo del Header).
    * **Importante en `404.html`:** Como el navegador la renderizará bajo cualquier ruta inventada, todos sus enlaces a CSS e imágenes deben ser rutas absolutas hacia `/adventureday2026/assets/...`.
 
 ---
