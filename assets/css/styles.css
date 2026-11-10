@@ -232,6 +232,12 @@ p {
   color: var(--color-green);
 }
 
+/* Botón que reclama atención (en el arcade, cuando se ha perdido) */
+.btn--atencion {
+  background: var(--color-green);
+  color: var(--color-white);
+}
+
 /* ---------- Acceso al Adventure Lab (imagen-enlace) ---------- */
 .lab {
   margin-top: 28px;
@@ -515,7 +521,7 @@ p {
 /* ---------- Sopa de letras ---------- */
 .sopa {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   gap: 2px;
   /* Mismo ancho que los otros juegos: casi todo, con un respiro a cada lado */
   width: calc(100% + 2 * var(--page-gutter) - 2 * var(--juego-inset));
@@ -537,7 +543,9 @@ p {
   background: #f4f4f4;
   color: #1a1a1a;
   font: inherit;
-  font-size: clamp(0.6875rem, 3.5vw, 1rem);
+  /* La cuadrícula es de 10x10 (antes 12x12): ocupa el mismo ancho, así que
+     cada casilla es más grande y la letra también. */
+  font-size: clamp(0.875rem, 4.7vw, 1.375rem);
   font-weight: 600;
   line-height: 1;
   cursor: pointer;

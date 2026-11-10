@@ -2,6 +2,33 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — En el arcade, una bomba termina la partida
+
+### Modificado
+- **`assets/js/arcade.js`**:
+  - **Una bomba ya no reinicia el contador: se pierde.** El juego se congela (las figuras se quedan quietas), hay fogonazo rojo, vibración y una banda con «¡Has perdido!» dentro del canvas; el mensaje de estado dice «¡Bomba! Has perdido con N de 26 logos. Pulsa «Empezar de nuevo».». El botón «Empezar de nuevo» pasa a verde (clase `btn--atencion`, añadida al CSS) para que se vea, y al pulsarlo se empieza otra vez desde cero.
+  - **Margen al chocar con las bombas:** el choque se calcula con una caja del 75 % del dibujo (`MARGEN_BOMBA`), porque los PNG traen margen transparente y la bomba «tocaba» cuando aún se veía separada de la cesta. Los logos se siguen atrapando con la caja completa.
+  - El dedo ya no mueve la cesta con la partida terminada.
+- **`assets/css/styles.css`**: clase `.btn--atencion` (botón verde sólido), que usa el botón de reinicio cuando se ha perdido.
+- **`5h1j7v/index.html`**: instrucciones actualizadas («si atrapas una bomba, pierdes y hay que empezar de nuevo»).
+
+### Notas
+- Medido a 360 px: con la caja de antes la bomba contaba hasta 22,5 px más allá del borde de la cesta; ahora, hasta 16,9 px, es decir **5,6 px de margen** a cada lado.
+- Comprobado que al perder la imagen se congela (dos capturas idénticas separadas 400 ms), que el botón devuelve el contador a 0 y el juego arranca de nuevo, y que no hay errores de JavaScript.
+
+## 2026-11-10 — La sopa, más pequeña y siempre al derecho
+
+### Modificado
+- **`assets/js/sopa.js`**: la cuadrícula pasa de 12×12 a **10×10** y cambian las palabras: ahora son `GEOCACHING`, `ADVENTURE`, `EVENTO`, `WAYPOINT` y `BONUS`.
+  - **Solo se esconden al derecho**, como se pidió tras probarlo en el móvil: las horizontales de izquierda a derecha, las verticales de arriba abajo y las diagonales de izquierda a derecha (hacia abajo). Ya no hay palabras invertidas.
+  - Cada sopa reparte **dos horizontales, dos verticales y una diagonal**. La diagonal se coloca la primera (así siempre cabe) y se sortea entre las palabras cortas, para que la más larga no quede entera sobre la diagonal principal.
+  - El generador ya no prueba sitios al azar hasta acertar: calcula todos los huecos válidos y elige uno, prefiriendo los que cruzan con palabras ya puestas.
+- **`assets/css/styles.css`**: el tablero sigue ocupando el mismo ancho (304 a 414 px), pero al tener 10 columnas cada casilla crece a 28,6–39,6 px y la letra a 15–20 px.
+- **`m8d6fc/index.html`**: comentario del tablero actualizado a 10×10.
+
+### Notas
+- Comprobado a 320, 360, 390 y 430 px: 100 casillas en 10 columnas, sin desbordes. En 40 sopas seguidas: siempre las cinco palabras, siempre al derecho (ninguna aparición invertida) y **una diagonal en cada una**; ninguna casilla vacía. Partida completa tocando primera y última letra: «Palabras encontradas: N de 5», victoria y respuesta correcta.
+
 ## 2026-11-10 — Llegan los dibujos del arcade
 
 ### Añadido

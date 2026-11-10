@@ -4,7 +4,8 @@
    Reglas:
    • Una cesta se mueve por la parte de abajo siguiendo el dedo.
    • Caen logos (hay que recogerlos) y bombas (hay que esquivarlas).
-   • Cada logo suma uno; si se atrapa una bomba, el contador vuelve a cero.
+   • Cada logo suma uno; si se atrapa una bomba, se pierde la partida y hay
+     que pulsar «Empezar de nuevo».
    • Se gana al recoger 26 logos.
    • Sin los dibujos de assets/img/arcade/, el canvas pinta las tres figuras,
      así que el juego funciona igual.
@@ -46,9 +47,16 @@
   var atrapados = 0;
   var acumulado = 0;        // segundos desde la última figura
   var ultimo = 0;           // marca de tiempo del fotograma anterior
-  var jugando = true;
+  var jugando = true;       // la partida está en marcha
+  var perdido = false;      // se ha chocado con una bomba: espera al botón
   var rojo = 0;             // fogonazo rojo al chocar con una bomba
   var arrastrando = false;
+
+  /* Los dibujos traen un margen transparente alrededor. Las bombas, además,
+     dibujan un círculo más pequeño que su recuadro: con el recuadro entero el
+     choque salta cuando todavía se ven lejos. Se calcula el choque con una
+     caja algo más pequeña que la figura. */
+  var MARGEN_BOMBA = 0.75;
 
   /* ---------- Utilidades ---------- */
 
@@ -200,6 +208,19 @@
     }
 
     dibujarCesta();
+
+    if (perdido) {
+      var altoBanda = Math.round(alto * 0.16);
+      var centro = Math.round(alto * 0.42);
+
+      ctx.fillStyle = "rgba(26, 26, 26, 0.88)";
+      ctx.fillRect(0, centro - altoBanda / 2, ancho, altoBanda);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "700 " + Math.round(ancho * 0.085) + "px system-ui, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("¡Has perdido!", ancho / 2, centro);
+    }
   }
 
   /* ---------- Partida ---------- */
@@ -237,14 +258,21 @@
     }, 400);
   }
 
-  function bombazo() {
-    atrapados = 0;
-    acumulado = 0;
+  /* Chocar con una bomba termina la partida: se para el juego y se espera a que
+     el jugador pulse «Empezar de nuevo». */
+  function perder() {
+    jugando = false;
+    perdido = true;
     rojo = 0.7;
-    estado("¡Bomba! Vuelves a empezar. Logos: 0 de " + META);
+    estado("¡Bomba! Has perdido con " + atrapados + " de " + META +
+      " logos. Pulsa «Empezar de nuevo».");
 
     if (navigator.vibrate) {
-      navigator.vibrate([40, 60, 40]);
+      navigator.vibrate([80, 60, 80]);
+    }
+
+    if (botonReiniciar) {
+      botonReiniciar.classList.add("btn--atencion");   // botón bien visible
     }
   }
 
@@ -265,16 +293,19 @@
       var objeto = objetos[i];
       objeto.y = objeto.y + objeto.vel * dt;
 
-      var solapa = objeto.x + mitad > cestaX &&
-                   objeto.x - mitad < cestaX + anchoCesta &&
-                   objeto.y + mitad > cestaY &&
-                   objeto.y - mitad < cestaY + altoCesta + 10;
+      // Con las bombas se perdona un poco: el choque se calcula con una caja
+      // menor que el dibujo, porque el PNG trae margen transparente.
+      var toca = objeto.bomba ? mitad * MARGEN_BOMBA : mitad;
+      var solapa = objeto.x + toca > cestaX &&
+                   objeto.x - toca < cestaX + anchoCesta &&
+                   objeto.y + toca > cestaY &&
+                   objeto.y - toca < cestaY + altoCesta + 10;
 
       if (solapa) {
         objetos.splice(i, 1);
 
         if (objeto.bomba) {
-          bombazo();
+          perder();
         } else {
           atrapados = atrapados + 1;
           estado("Logos: " + atrapados + " de " + META);
@@ -291,10 +322,6 @@
         objetos.splice(i, 1);   // se ha escapado por abajo
       }
     }
-
-    if (rojo > 0) {
-      rojo = Math.max(0, rojo - dt * 1.6);
-    }
   }
 
   function bucle(tiempo) {
@@ -308,6 +335,10 @@
 
     if (jugando) {
       actualizar(dt);
+    }
+
+    if (rojo > 0) {
+      rojo = Math.max(0, rojo - dt * 1.6);   // también se apaga con el juego parado
     }
 
     dibujar();
@@ -325,6 +356,11 @@
 
   canvas.addEventListener("pointerdown", function (evento) {
     evento.preventDefault();
+
+    if (!jugando) {
+      return;      // partida terminada: solo queda pulsar «Empezar de nuevo»
+    }
+
     arrastrando = true;
     moverA(evento.clientX);
 
@@ -335,7 +371,7 @@
 
   canvas.addEventListener("pointermove", function (evento) {
     // Con el dedo hace falta estar arrastrando; con ratón basta con pasar por encima
-    if (!arrastrando && evento.pointerType === "touch") {
+    if (!jugando || (!arrastrando && evento.pointerType === "touch")) {
       return;
     }
 
@@ -354,6 +390,7 @@
 
   function empezar() {
     jugando = true;
+    perdido = false;
     atrapados = 0;
     acumulado = 0;
     rojo = 0;
@@ -366,6 +403,10 @@
     }
 
     estado("Logos: 0 de " + META);
+
+    if (botonReiniciar) {
+      botonReiniciar.classList.remove("btn--atencion");
+    }
   }
 
   if (botonReiniciar) {

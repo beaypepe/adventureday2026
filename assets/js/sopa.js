@@ -2,8 +2,9 @@
    Sopa de letras — Adventure Day 2026 (carpeta m8d6fc)
    --------------------------------------------------------------------------
    Reglas:
-   • Cinco palabras escondidas en una cuadrícula de 12x12, en horizontal,
-     vertical o diagonal, hacia delante o hacia atrás.
+   • Cinco palabras escondidas en una cuadrícula de 10x10, siempre escritas
+     al derecho: horizontales de izquierda a derecha, verticales de arriba
+     abajo y diagonales de izquierda a derecha (hacia abajo).
    • Se marcan deslizando el dedo de la primera letra a la última, o tocando
      una y luego la otra (cómodo cuando las casillas son pequeñas).
    • Las palabras NO se listan en la página: solo se dice cuántas hay y de qué
@@ -16,14 +17,18 @@
      No se escribe en claro en el repositorio para que no se encuentre de un vistazo. */
   var RESPUESTA = window.AD.abrir("AV0QRAcQZVdYMlQFaQsGSVM=", "m8d6fc:26");
 
-  var PALABRAS = ["ADVENTURE", "GEOCACHING", "ETAPA", "COORDENADAS", "EVENTO"];
+  var PALABRAS = ["GEOCACHING", "ADVENTURE", "EVENTO", "WAYPOINT", "BONUS"];
 
-  var LADO = 12;   // 12x12: la palabra más larga tiene 11 letras
+  var LADO = 10;   // 10x10: la palabra más larga tiene 10 letras
   var RELLENO = "AAAAAAAAEEEEEEIIIIIOOOOUUBCDFGHLMNPRSTVZ";
 
+  /* Solo tres direcciones, todas "al derecho": en horizontal de izquierda a
+     derecha, en vertical de arriba abajo y en diagonal de izquierda a derecha
+     (hacia abajo). Así nunca hay que leer al revés. */
   var DIRECCIONES = [
-    [0, 1], [1, 0], [1, 1], [1, -1],
-    [0, -1], [-1, 0], [-1, -1], [-1, 1]
+    [0, 1],    // →
+    [1, 0],    // ↓
+    [1, 1]     // ↘
   ];
 
   var contenedor = document.getElementById("sopa");
@@ -36,7 +41,7 @@
   }
 
   var rejilla = [];          // rejilla[fila][columna] = letra
-  var celdas = [];           // los 144 botones, en orden
+  var celdas = [];           // los 100 botones, en orden
   var colocadas = [];        // { palabra, celdas } de la sopa actual
   var encontradas = [];      // palabras ya halladas
   var seleccion = [];        // celdas resaltadas en este momento
@@ -75,50 +80,93 @@
     return filas;
   }
 
-  /* Intenta colocar una palabra en un sitio libre al azar. Devuelve sus celdas
-     o null si no ha encontrado hueco en 400 intentos. */
-  function colocar(palabra) {
-    for (var intento = 0; intento < 400; intento++) {
-      var dir = DIRECCIONES[Math.floor(Math.random() * DIRECCIONES.length)];
-      var fila = Math.floor(Math.random() * LADO);
-      var col = Math.floor(Math.random() * LADO);
+  /* Todos los huecos donde cabe la palabra en una dirección, apuntando cuántas
+     letras cruzarían con palabras ya puestas (para poder preferir los cruces). */
+  function huecosDe(palabra, dir) {
+    var huecos = [];
 
-      if (fila + dir[0] * (palabra.length - 1) < 0 ||
-          fila + dir[0] * (palabra.length - 1) >= LADO ||
-          col + dir[1] * (palabra.length - 1) < 0 ||
-          col + dir[1] * (palabra.length - 1) >= LADO) {
-        continue;
-      }
+    for (var fila = 0; fila < LADO; fila++) {
+      for (var col = 0; col < LADO; col++) {
+        var fFin = fila + dir[0] * (palabra.length - 1);
+        var cFin = col + dir[1] * (palabra.length - 1);
 
-      var cabe = true;
-      var i;
+        if (fFin < 0 || fFin >= LADO || cFin < 0 || cFin >= LADO) {
+          continue;
+        }
 
-      for (i = 0; i < palabra.length && cabe; i++) {
-        var actual = rejilla[fila + dir[0] * i][col + dir[1] * i];
+        var cabe = true;
+        var cruces = 0;
 
-        if (actual && actual !== palabra.charAt(i)) {
-          cabe = false;
+        for (var i = 0; i < palabra.length && cabe; i++) {
+          var actual = rejilla[fila + dir[0] * i][col + dir[1] * i];
+
+          if (actual) {
+            if (actual !== palabra.charAt(i)) {
+              cabe = false;
+            } else {
+              cruces++;
+            }
+          }
+        }
+
+        if (cabe) {
+          huecos.push({ fila: fila, col: col, cruces: cruces });
         }
       }
-
-      if (!cabe) {
-        continue;
-      }
-
-      var usadas = [];
-
-      for (i = 0; i < palabra.length; i++) {
-        var f = fila + dir[0] * i;
-        var c = col + dir[1] * i;
-
-        rejilla[f][c] = palabra.charAt(i);
-        usadas.push(f * LADO + c);
-      }
-
-      return { palabra: palabra, celdas: usadas };
     }
 
-    return null;
+    return huecos;
+  }
+
+  function unoAlAzar(lista) {
+    return lista[Math.floor(Math.random() * lista.length)];
+  }
+
+  /* Coloca la palabra: primero en la dirección que le toca y, si ahí no hay
+     hueco, en cualquiera de las otras. Cuando puede, la cruza con una palabra
+     ya puesta. Devuelve sus celdas o null si no cabe en ningún sitio. */
+  function colocar(palabra, direccion) {
+    var orden = [direccion];
+    var d;
+
+    for (d = 0; d < DIRECCIONES.length; d++) {
+      if (DIRECCIONES[d] !== direccion) {
+        orden.push(DIRECCIONES[d]);
+      }
+    }
+
+    var huecos = [];
+
+    for (d = 0; d < orden.length && !huecos.length; d++) {
+      huecos = huecosDe(palabra, orden[d]);
+      direccion = orden[d];
+    }
+
+    if (!huecos.length) {
+      return null;
+    }
+
+    var conCruce = [];
+    var i;
+
+    for (i = 0; i < huecos.length; i++) {
+      if (huecos[i].cruces > 0) {
+        conCruce.push(huecos[i]);
+      }
+    }
+
+    var elegido = unoAlAzar(conCruce.length ? conCruce : huecos);
+    var usadas = [];
+
+    for (i = 0; i < palabra.length; i++) {
+      var f = elegido.fila + direccion[0] * i;
+      var c = elegido.col + direccion[1] * i;
+
+      rejilla[f][c] = palabra.charAt(i);
+      usadas.push(f * LADO + c);
+    }
+
+    return { palabra: palabra, celdas: usadas };
   }
 
   function rellenar() {
@@ -131,6 +179,18 @@
     }
   }
 
+  function barajar(lista) {
+    for (var i = lista.length - 1; i > 0; i--) {
+      var azar = Math.floor(Math.random() * (i + 1));
+      var cambio = lista[i];
+
+      lista[i] = lista[azar];
+      lista[azar] = cambio;
+    }
+
+    return lista;
+  }
+
   function generar() {
     var orden = PALABRAS.slice().sort(function (a, b) {
       return b.length - a.length; // primero las palabras largas, caben mejor
@@ -140,10 +200,30 @@
       rejilla = crearRejilla();
       colocadas = [];
 
+      // Reparto equilibrado: dos palabras en horizontal, dos en vertical y una
+      // en diagonal. La diagonal se coloca la primera (así siempre encuentra
+      // sitio) y se sortea entre las palabras cortas, porque en la más larga
+      // quedaría entera sobre la diagonal principal y se vería de un vistazo.
+      var indiceDiagonal = 2 + Math.floor(Math.random() * (orden.length - 2));
+      var conDiagonal = [orden[indiceDiagonal]];
+      var i;
+
+      for (i = 0; i < orden.length; i++) {
+        if (i !== indiceDiagonal) {
+          conDiagonal.push(orden[i]);
+        }
+      }
+
+      var reparto = [DIRECCIONES[2]].concat(
+        barajar([DIRECCIONES[0], DIRECCIONES[0], DIRECCIONES[1], DIRECCIONES[1]])
+      );
+
+      orden = conDiagonal;
+
       var completa = true;
 
-      for (var i = 0; i < orden.length; i++) {
-        var puesta = colocar(orden[i]);
+      for (i = 0; i < orden.length; i++) {
+        var puesta = colocar(orden[i], reparto[i]);
 
         if (!puesta) {
           completa = false;
@@ -157,6 +237,9 @@
         return;
       }
     }
+
+    // Por si acaso: nunca dejar casillas vacías.
+    rellenar();
   }
 
   function pintar() {
