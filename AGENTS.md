@@ -1,6 +1,6 @@
 # 🤖 AGENTS.md — Directrices Técnicas y de Contexto para IA / Desarrollo
 
-Este documento define la arquitectura, reglas de diseño, restricciones tecnológicas, mecánicas de juego y flujo de trabajo del proyecto **Adventure Day 2026**. Cualquier agente de IA o desarrollador que intervenga en este repositorio **DEBE** leer y cumplir estrictamente estas directrices.
+Este documento define la arquitectura, reglas de diseño, restricciones tecnológicas, especificaciones de activos gráficos, mecánicas de juego y flujo de trabajo del proyecto **Adventure Day 2026**. Cualquier agente de IA o desarrollador que intervenga en este repositorio **DEBE** leer y cumplir estrictamente estas directrices.
 
 ---
 
@@ -9,7 +9,7 @@ Este documento define la arquitectura, reglas de diseño, restricciones tecnoló
 * **URL de Producción (GitHub Pages):** `https://beaypepe.github.io/adventureday2026/`
 * **Tecnologías permitidas:** Exclusivamente **HTML5, CSS3 y JavaScript (Vanilla JS)**. 
 * **Restricción de servidor:** Al alojarse en GitHub Pages, **NO** se puede utilizar PHP, bases de datos ni procesamiento backend. Todo debe ejecutarse en el navegador del cliente (*client-side*).
-* **Rutas relativas/base:** El proyecto se sirve desde la subcarpeta `/adventureday2026/` en GitHub Pages. Todas las referencias a estilos e imágenes deben usar rutas que funcionen tanto desde la raíz (`index.html`, `404.html`) como desde las subcarpetas de las etapas (ej. `/adventureday2026/assets/...`).
+* **Rutas relativas/base:** El proyecto se sirve desde la subcarpeta `/adventureday2026/` en GitHub Pages. Todas las referencias a estilos e imágenes deben usar rutas absolutas respecto al subdirectorio (`/adventureday2026/assets/...`) para que funcionen tanto desde la raíz (`index.html`, `404.html`) como desde las subcarpetas de las etapas.
 
 ---
 
@@ -35,64 +35,86 @@ El proyecto se consumirá **exclusivamente desde teléfonos móviles** durante e
 ---
 
 ## 3. Especificaciones Técnicas de los 5 Minijuegos (Etapas)
-Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** para no atascar a los asistentes del evento. Al superar cualquiera de ellos, se mostrará de forma clara y destacada en pantalla la **respuesta/código de esa etapa** para introducirla en la app Adventure Lab.
+Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** para no atascar a los asistentes del evento. Todos los juegos deben incluir **fallbacks visuales** (colores, números o emojis) en caso de que las imágenes `.png` aún no estén subidas al repositorio, permitiendo probar toda la lógica desde el primer momento. Al superar cualquiera de ellos, se mostrará de forma clara y destacada en pantalla la **respuesta/código de esa etapa** para introducirla en la app Adventure Lab.
 
-### Etapa 1: El Laberinto Táctil de Trazo (HTML5 Canvas + Touch API)
-* **Mecánica:** Un laberinto sencillo dibujado en un `<canvas>` (ej. cuadrícula de 10x10 o 12x12). El jugador debe apoyar el dedo en la casilla de salida y arrastrarlo de forma continua (`touchstart`, `touchmove`, `touchend` + soporte de ratón para pruebas) hasta la meta sin levantar el dedo ni chocar con los muros.
-* **Colisiones y Feedback:** Si el trazo toca una pared o el usuario levanta el dedo antes de llegar a la meta, el trazo se reinicia (con vibración corta `navigator.vibrate(100)` si el dispositivo lo soporta y aviso visual).
-* **Optimización móvil:** Calibrar el grosor del pasillo y del puntero para que el dedo del jugador no tape el camino inmediato.
+### Etapa 1: El Laberinto Táctil (HTML5 Canvas + Touch API)
+* **Tamaño y Ergonomía ("Dedos Gordos"):** 
+  * **CRÍTICO:** En pantallas de móvil de `360px` de ancho, una cuadrícula de 10x10 o 12x12 deja pasillos demasiado estrechos y el propio dedo tapa el camino. Se debe utilizar una cuadrícula más amplia y cómoda, de **6x6, 7x7 u 8x8 celdas** como máximo (pasillos de al menos `45px–55px` de ancho).
+* **Mecánica de Colisión (Rozar vs. Atravesar):**
+  * **NO** se penaliza que el jugador roce o toque los bordes de las paredes con el dedo (algo natural en pantallas táctiles).
+  * Lo que está **prohibido es ATRAVESAR una pared** (pasar de una celda a otra cuando existe un muro entre ambas, o saltar celdas haciendo trampa).
+  * El seguimiento del dedo (`touchmove`) debe evaluar el segmento entre la celda anterior y la celda actual: si el vector de movimiento cruza un muro (o si el usuario levanta el dedo y lo apoya en otra parte saltándose el camino), **el laberinto se reinicia al inicio** (acompañado de vibración corta `navigator.vibrate(100)` si está disponible y feedback visual).
 
 ### Etapa 2: El Puzzle Deslizante 3x3 (CSS Grid + Algoritmo Soluble)
-* **Mecánica:** Cuadrícula de **3x3** (8 piezas con fragmentos de la imagen cuadrada `/adventureday2026/assets/img/puzzle.png` de `600x600px` + 1 casilla vacía). Al tocar una pieza adyacente al hueco vacío, se desliza hacia él. Si `puzzle.png` aún no existe, las fichas deben mostrar números grandes (1-8) y un fondo de color como fallback para poder jugar igual.
-* **Garantía de solubilidad y baja dificultad (CRÍTICO):** **PROHIBIDO** barajar las piezas con un `Math.random()` simple sobre el array (puede generar permutaciones matemáticamente irresolubles o demasiado largas). El estado inicial debe generarse partiendo del puzzle **ya resuelto** y ejecutando por código entre **15 y 20 movimientos aleatorios válidos inversos** (sin deshacer inmediatamente el movimiento anterior). Esto garantiza al 100% que tiene solución y que se resuelve en menos de un minuto.
+* **Activos gráficos:** Usa la imagen cuadrada `/adventureday2026/assets/img/puzzle.png` (**600×600 píxeles**). Si la imagen no carga, cada ficha mostrará su número del 1 al 8 sobre un fondo de color como fallback.
+* **Mecánica:** Cuadrícula de **3x3** (8 piezas + 1 casilla vacía). Al tocar una pieza adyacente al hueco vacío, se desliza hacia él.
+* **Garantía de solubilidad y baja dificultad (CRÍTICO):** **PROHIBIDO** barajar las piezas con un `Math.random()` libre (genera permutaciones matemáticamente irresolubles el 50% de las veces). El estado inicial debe generarse partiendo del puzzle **resuelto** y aplicando por código entre **15 y 20 movimientos aleatorios válidos inversos** (evitando deshacer el movimiento inmediatamente anterior).
 
-### Etapa 3: Juego de Memoria / Encontrar Parejas (Grid 5x4)
-* **Mecánica:** Cuadrícula de **20 cartas (4 columnas × 5 filas)** dadas la vuelta. Hay 10 parejas de iconos/símbolos relacionados con el geocaching o el evento, barajadas con el algoritmo Fisher-Yates.
-* **Interacción y Animación:** Al tocar una carta, gira con efecto 3D en CSS (`transform: rotateY(180deg)`). Se voltean de dos en dos (bloqueando el tablero mientras se comprueba la pareja). Si coinciden, quedan marcadas/descartadas; si no, vuelven a girarse tras `800ms`. El juego termina al emparejar las 20 cartas.
+### Etapa 3: Juego de Memoria / Encontrar Parejas (Grid 4x5)
+* **Activos gráficos:** 
+  * **Ubicación:** Carpeta `/adventureday2026/assets/img/cards/`
+  * **Reverso de las cartas:** `back.png` (**200×200 píxeles**, formato PNG).
+  * **Anverso (10 parejas = 10 archivos):** `card1.png`, `card2.png`, `card3.png`, `card4.png`, `card5.png`, `card6.png`, `card7.png`, `card8.png`, `card9.png`, `card10.png` (**200×200 píxeles** cada uno, proporción 1:1, formato PNG).
+  * **Fallback:** Si alguna imagen aún no existe en el servidor, la carta mostrará automáticamente un icono/emoji o número distintivo para poder jugar sin errores.
+* **Mecánica:** Cuadrícula de **20 cartas (4 columnas × 5 filas en vertical)** dadas la vuelta y barajadas con el algoritmo Fisher-Yates.
+* **Interacción:** Al tocar dos cartas, giran con efecto 3D (`rotateY(180deg)`). Si tienen el mismo logo, quedan emparejadas/descartadas; si no, vuelven a voltearse tras `800ms`. Gana al descubrir las 10 parejas.
 
-### Etapa 4: Sopa de Letras Táctil (Grid Pequeño)
-* **Mecánica:** Cuadrícula pequeña (ej. **8x8** celdas) con **3 o 4 palabras** temáticas de geocaching ocultas en horizontal, vertical o diagonal. La lista de palabras a buscar se muestra encima o debajo del tablero y se van tachando al encontrarlas.
-* **Interacción táctil adaptada a móvil:** Permitir doble modalidad para evitar fallos de precisión en pantallas pequeñas:
-  1. Arrastrar el dedo de la primera a la última letra (`touchstart` + `touchmove` usando `document.elementFromPoint(touch.clientX, touch.clientY)`).
-  2. Tocar la primera letra y luego tocar la última letra de la palabra (modo *tap-inicio / tap-fin*).
+### Etapa 4: Sopa de Letras Táctil
+* **Palabras a buscar:** Se confirmarán al programar la etapa, pero se debe contemplar por defecto el uso de palabras largas como `"GEOCACHING"`, `"ADVENTURELAB"` (12 letras) y `"EVENTO"` (más alguna adicional si se decide).
+* **Tamaño de cuadrícula:** Dado que `"ADVENTURELAB"` tiene **12 letras**, la cuadrícula debe adaptarse dinámicamente a la palabra más larga (por ejemplo, **12×12 celdas**). Las palabras a buscar se muestran en una lista superior/inferior y se tachan al encontrarlas.
+* **Interacción táctil adaptada a móvil (Doble modalidad):**
+  1. **Por arrastre:** Deslizar el dedo desde la primera hasta la última letra (`touchstart` + `touchmove` calculando la línea recta mediante `document.elementFromPoint`).
+  2. **Por dos toques (ideal para celdas pequeñas en 12x12):** Tocar la primera letra de la palabra y luego tocar la última letra; si forman línea recta válida y coinciden con una palabra buscada, se marca como encontrada.
 
 ### Etapa 5: Mini-Juego Arcade "Atrapa el Logo" (HTML5 Canvas)
-* **Mecánica:** Juego tipo *catcher* usando `<canvas>` y `requestAnimationFrame`. En la parte inferior hay un receptor/cesta que el jugador mueve de izquierda a derecha deslizando el dedo por la pantalla (seguimiento horizontal suave del toque).
-* **Objetos y Reglas:** Desde la parte superior caen dos tipos de objetos:
-  * **Logos del Adventure Day** (buenos): Suman `+1` al marcador.
-  * **Bombas** (malos): Si chocan con el jugador, restan una vida (o penalizan puntos / reinician la ronda si se agotan las 3 vidas).
-* **Condición de victoria:** El juego finaliza inmediatamente al atrapar **26 logos** (en honor al año 2026), deteniendo el bucle de animación y mostrando la clave de la etapa.
+* **Activos gráficos:**
+  * **Ubicación:** Carpeta `/adventureday2026/assets/img/arcade/`
+  * **Logo bueno (a recoger):** `item-good.png` (**128×128 píxeles**, PNG con fondo transparente).
+  * **Bomba (a esquivar):** `item-bad.png` (**128×128 píxeles**, PNG con fondo transparente).
+  * **Receptor/Jugador (opcional):** `player.png` (**160×100 píxeles**, PNG con fondo transparente).
+  * **Fallback:** Si las imágenes aún no están subidas, el `<canvas>` dibujará figuras/iconos vectoriales en su lugar para que sea 100% jugable.
+* **Mecánica:** En la parte inferior hay un receptor que el jugador mueve horizontalmente arrastrando el dedo por la pantalla.
+* **Reglas y Victoria:** Caen logos (`item-good.png`) y bombas (`item-bad.png`). Cada logo suma `+1`. Chocar con una bomba resta una vida (o reinicia el contador/partida al perder las vidas). El juego termina con victoria al atrapar **26 logos**.
 
 ---
 
 ## 4. Estructura de Archivos del Proyecto
-Para evitar que los usuarios adivinen las URLs de las etapas cambiando números, cada etapa se alojará en una carpeta con un **identificador alfanumérico aleatorio**:
+Cada etapa se alojará en una carpeta con un **identificador alfanumérico aleatorio**:
 
 ```text
 /
-├── index.html          # Página inicial con instrucciones y enlace al Adventure Lab
-├── 404.html            # Página de señuelo ("Aquí no hay nada, sigue buscando") para QRs falsos
-├── README.md           # Descripción pública del proyecto
-├── AGENTS.md           # Este archivo de directrices técnicas
-├── ROADMAP.md          # Lista de tareas pendientes y completadas
-├── CHANGELOG.md        # Registro cronológico de cambios realizados
+├── index.html                  # Página inicial con instrucciones y enlace al Adventure Lab
+├── 404.html                    # Página señuelo ("Aquí no hay nada, sigue buscando")
+├── README.md                   # Descripción pública del proyecto
+├── AGENTS.md                   # Este archivo de directrices técnicas
+├── ROADMAP.md                  # Lista de tareas pendientes y completadas
+├── CHANGELOG.md                # Registro cronológico de cambios realizados
 ├── assets/
 │   ├── css/
-│   │   └── styles.css  # Estilos globales (Header, Footer, Reset, Layout móvil, Modales de éxito)
+│   │   └── styles.css          # Estilos globales (Header, Footer, Reset, Layout móvil, Modales)
 │   ├── js/
-│   │   └── common.js   # Funciones compartidas (header/footer dinámicos o utilidades)
+│   │   └── common.js           # Funciones compartidas (header/footer/modales de victoria)
 │   └── img/
-│       ├── logo.png    # Logo del encabezado (600x160px aprox.)
-│       └── puzzle.png  # Imagen cuadrada para el puzzle 3x3 (600x600px)
-├── [hash-etapa-1]/     # Etapa 1: Laberinto táctil de trazo
+│       ├── logo.png            # Logo del encabezado (600x160px)
+│       ├── puzzle.png          # Imagen cuadrada para Etapa 2 (600x600px)
+│       ├── cards/              # Imágenes para Etapa 3 (200x200px cada una)
+│       │   ├── back.png        # Parte trasera de las cartas
+│       │   ├── card1.png       # Pareja 1
+│       │   ├── ...             # ...
+│       │   └── card10.png      # Pareja 10
+│       └── arcade/             # Imágenes para Etapa 5
+│           ├── item-good.png   # Logo Adventure Day que cae (128x128px)
+│           ├── item-bad.png    # Bomba a esquivar (128x128px)
+│           └── player.png      # Cesta/receptor opcional (160x100px)
+├── [hash-etapa-1]/             # Etapa 1: Laberinto táctil (no atravesar paredes)
 │   └── index.html
-├── [hash-etapa-2]/     # Etapa 2: Puzzle deslizante 3x3
+├── [hash-etapa-2]/             # Etapa 2: Puzzle deslizante 3x3
 │   └── index.html
-├── [hash-etapa-3]/     # Etapa 3: Juego de parejas (5x4 - 20 cartas)
+├── [hash-etapa-3]/             # Etapa 3: Juego de parejas (20 cartas)
 │   └── index.html
-├── [hash-etapa-4]/     # Etapa 4: Sopa de letras táctil (3-4 palabras)
+├── [hash-etapa-4]/             # Etapa 4: Sopa de letras táctil
 │   └── index.html
-└── [hash-etapa-5]/     # Etapa 5: Mini-juego arcade (26 logos vs bombas)
+└── [hash-etapa-5]/             # Etapa 5: Mini-juego arcade "Atrapa el Logo" (26 logos)
     └── index.html
 ```
 
