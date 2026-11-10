@@ -13,7 +13,7 @@
 
   --page-max-width: 480px; /* Ancho máximo, para probar en escritorio */
   --page-gutter: 20px;     /* Margen lateral del contenido */
-  --maze-inset: 8px;       /* Respiro del laberinto hasta el borde de la pantalla */
+  --juego-inset: 8px;      /* Respiro del laberinto y del puzzle hasta el borde */
 }
 
 /* ---------- Reset mínimo ---------- */
@@ -292,11 +292,11 @@ p {
 .maze {
   display: block;
   /* Casi todo el ancho de la pantalla: rompe el margen lateral del contenido
-     (20 px) y deja solo el respiro de --maze-inset a cada lado. Así los
+     (20 px) y deja solo el respiro de --juego-inset a cada lado. Así los
      pasillos quedan lo más anchos posible sin que el laberinto toque el borde. */
-  width: calc(100% + 2 * var(--page-gutter) - 2 * var(--maze-inset));
+  width: calc(100% + 2 * var(--page-gutter) - 2 * var(--juego-inset));
   max-width: none;
-  margin: 8px calc(var(--maze-inset) - var(--page-gutter)) 0;
+  margin: 8px calc(var(--juego-inset) - var(--page-gutter)) 0;
   background: var(--color-white);
   box-shadow: 0 0 0 2px #1a1a1a, 0 6px 16px rgba(0, 0, 0, 0.18);
   touch-action: none;
@@ -308,6 +308,74 @@ p {
 /* Fogonazo al atravesar una pared */
 .maze--fallo {
   box-shadow: 0 0 0 4px #c0392b, 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------- Puzzle deslizante ---------- */
+.puzzle {
+  position: relative;
+  /* Mismo ancho que el laberinto: casi todo el ancho, con un respiro a cada lado */
+  width: calc(100% + 2 * var(--page-gutter) - 2 * var(--juego-inset));
+  aspect-ratio: 1 / 1;
+  margin: 8px calc(var(--juego-inset) - var(--page-gutter)) 0;
+  background: #ededed;
+  box-shadow: 0 0 0 2px #1a1a1a, 0 6px 16px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.puzzle__ficha {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% / 3);
+  height: calc(100% / 3);
+  padding: 0;
+  border: 0;
+  background-repeat: no-repeat;
+  background-size: 300% 300%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  font: inherit;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: transform 0.16s ease-out;
+}
+
+.puzzle__ficha:focus-visible {
+  outline: 3px solid var(--color-green);
+  outline-offset: -3px;
+}
+
+.puzzle__numero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 1.625rem;
+  font-weight: 700;
+}
+
+/* Con la imagen cargada las fichas son trozos del dibujo, no números */
+.puzzle--con-imagen .puzzle__numero {
+  display: none;
+}
+
+/* La primera colocación aparece sin animación */
+.puzzle--sin-animacion .puzzle__ficha {
+  transition: none;
+}
+
+/* Aviso al tocar una ficha que no toca el hueco */
+.puzzle__ficha--no {
+  box-shadow: inset 0 0 0 3px #c0392b;
+}
+
+/* Puzzle terminado */
+.puzzle--resuelto {
+  box-shadow: 0 0 0 2px var(--color-green), 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 
 .game__estado {

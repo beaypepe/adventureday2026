@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d65b33">
+  <link rel="icon" type="image/png" href="/adventureday2026/assets/img/favicon.png?v=20261110150248">
+  <link rel="apple-touch-icon" href="/adventureday2026/assets/img/apple-touch-icon.png?v=20261110150248">
+  <title>Puzzle — Adventure Day 2026</title>
+  <meta name="description" content="Minijuego del Adventure Day 2026: desliza las piezas hasta recomponer la imagen.">
+  <!-- Marca de tiempo (?v=) en CSS, JS e imágenes: obliga al móvil a descargar la
+       versión nueva en lugar de usar la que tiene en caché. Se actualiza con
+       tools/bump-versions.sh antes de publicar cambios en assets/. -->
+  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css?v=20261110150248">
+</head>
+<body>
+
+  <!-- Header (común a todas las páginas). Si logo.png no carga, se oculta y aparece el texto. -->
+  <header class="site-header">
+    <a class="site-header__link" href="/adventureday2026/">
+      <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png?v=20261110150248" alt="Adventure Day 2026"
+           onerror="this.hidden = true; this.nextElementSibling.hidden = false;">
+      <span class="site-header__title" hidden>Adventure Day 2026</span>
+    </a>
+  </header>
+
+  <main class="site-main game">
+    <h1>Puzzle</h1>
+    <p id="instrucciones">Toca una ficha pegada al hueco para deslizarla. El hueco tiene que acabar en la esquina de arriba a la derecha.</p>
+
+    <!-- Tablero 3x3. Las fichas las crea puzzle.js; data-imagen apunta al dibujo
+         que se trocea (si no carga, cada ficha muestra su número). -->
+    <div class="puzzle" id="puzzle" role="group" aria-describedby="instrucciones" aria-label="Puzzle deslizante"
+         data-imagen="/adventureday2026/assets/img/puzzle.png?v=20261110150248"></div>
+
+    <p class="game__estado" id="estado" role="status">Movimientos: 0</p>
+
+    <button class="btn btn--secundario" id="mezclar" type="button">Mezclar otra vez</button>
+
+    <p class="game__respuesta" id="respuesta-final" role="status" hidden>Respuesta de esta etapa:<strong data-respuesta></strong></p>
+  </main>
+
+  <!-- Footer (común a todas las páginas) -->
+  <footer class="site-footer">
+    Una ocurrencia de <a href="https://beaypepe.com" target="_blank" rel="noopener">BeayPepe</a>
+  </footer>
+
+  <script src="/adventureday2026/assets/js/common.js?v=20261110150248"></script>
+  <script src="/adventureday2026/assets/js/puzzle.js?v=20261110150248"></script>
+
+</body>
+</html>

@@ -66,9 +66,11 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
   * El seguimiento del dedo (`touchmove`) debe evaluar el segmento entre la celda anterior y la celda actual: si el vector de movimiento cruza un muro (o si el usuario levanta el dedo y lo apoya en otra parte saltándose el camino), **el laberinto se reinicia al inicio** (acompañado de vibración corta `navigator.vibrate(100)` si está disponible y feedback visual).
 
 ### Etapa 2: El Puzzle Deslizante 3x3 (CSS Grid + Algoritmo Soluble)
-* **Activos gráficos:** Usa la imagen cuadrada `/adventureday2026/assets/img/puzzle.png` (**600×600 píxeles**). Si la imagen no carga, cada ficha mostrará su número del 1 al 8 sobre un fondo de color como fallback.
-* **Mecánica:** Cuadrícula de **3x3** (8 piezas + 1 casilla vacía). Al tocar una pieza adyacente al hueco vacío, se desliza hacia él.
-* **Garantía de solubilidad y baja dificultad (CRÍTICO):** **PROHIBIDO** barajar las piezas con un `Math.random()` libre (genera permutaciones matemáticamente irresolubles el 50% de las veces). El estado inicial debe generarse partiendo del puzzle **resuelto** y aplicando por código entre **15 y 20 movimientos aleatorios válidos inversos** (evitando deshacer el movimiento inmediatamente anterior).
+* **Activos gráficos:** Usa la imagen cuadrada `/adventureday2026/assets/img/puzzle.png` (**600×600 píxeles**), referenciada en el atributo `data-imagen` del tablero para que `tools/bump-versions.sh` le actualice la marca `?v=`. Si la imagen no carga, cada ficha muestra su número del 1 al 8 sobre un fondo de color pastel.
+* **Pieza que falta (decisión del evento):** se quita la de la **esquina superior derecha** (trozo 2 del dibujo, que es cielo liso). Por eso, cuando el puzzle está resuelto, el hueco queda en esa misma esquina y la imagen se ve completa salvo ese noveno. La página lo dice en las instrucciones.
+* **Mecánica:** Cuadrícula de **3x3** con 8 fichas y un hueco. Al tocar una ficha pegada al hueco, se desliza hacia él; si no lo toca, no se mueve y la ficha avisa con un parpadeo rojo. Debajo del tablero se muestra el contador de movimientos.
+* **Garantía de solubilidad y baja dificultad (CRÍTICO):** **PROHIBIDO** barajar las piezas con un `Math.random()` libre (genera permutaciones matemáticamente irresolubles el 50% de las veces). El estado inicial se genera partiendo del puzzle **resuelto** y aplicando **18 movimientos aleatorios legales** (sin deshacer el anterior), así que cada partida se resuelve en 18 movimientos o menos.
+* **Accesibilidad:** cada ficha es un `<button>` con `aria-label` («Ficha 3, fila 1, columna 2»), así que se puede jugar con teclado (Tab + Enter) y los lectores de pantalla saben qué pieza está dónde.
 
 ### Etapa 3: Juego de Memoria / Encontrar Parejas (Grid 4x5)
 * **Activos gráficos:** 
@@ -117,7 +119,8 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 │   │   └── styles.css          # Estilos globales (Header, Footer, Reset, Layout móvil, Modales)
 │   ├── js/
 │   │   ├── common.js           # Funciones compartidas (fecha del Lab, modal de respuesta)
-│   │   └── laberinto.js        # Lógica del laberinto táctil
+│   │   ├── laberinto.js       # Lógica del laberinto táctil
+│   │   └── puzzle.js          # Lógica del puzzle deslizante
 │   └── img/
 │       ├── favicon.png         # Icono del sitio en la pestaña (180x180px)
 │       ├── apple-touch-icon.png # Icono para iOS (180x180px)

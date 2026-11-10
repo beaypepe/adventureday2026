@@ -2,6 +2,23 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Segundo minijuego: el puzzle deslizante
+
+### Añadido
+- **`7k2m9p/index.html`** (carpeta asignada al Puzzle): página con el Header y el Footer comunes, instrucciones, el tablero, el contador de movimientos, el botón «Mezclar otra vez» y el recuadro donde queda la respuesta al ganar.
+- **`assets/js/puzzle.js`**: lógica del juego.
+  - La imagen `assets/img/puzzle.png` se reparte en una cuadrícula **3x3** pintando cada ficha con su tercio del dibujo (`background-size: 300% 300%`).
+  - **Falta la pieza de la esquina superior derecha** (trozo 2, cielo liso): por eso el hueco, cuando el puzzle está resuelto, queda en esa esquina y la imagen se ve completa salvo ese noveno.
+  - Solo se mueve una ficha de las que tocan el hueco; si se toca otra, no se mueve y parpadea en rojo. Se gana cuando las ocho fichas están en su sitio.
+  - Cada partida se mezcla con **18 movimientos legales al azar desde la posición resuelta** (sin deshacer el anterior): siempre tiene solución y se resuelve en 18 movimientos o menos.
+  - Si `puzzle.png` no carga, cada ficha muestra su número del 1 al 8 sobre un color pastel distinto, así que el juego funciona igual.
+  - La respuesta de la etapa se guarda codificada (`window.AD.abrir("…", "7k2m9p:26")`) y se revela con el modal común y el recuadro de la página.
+- **`assets/css/styles.css`**: bloque nuevo del puzzle (`.puzzle`, fichas, números de reserva, aviso en rojo y marco verde al resolverlo). La variable `--maze-inset` pasa a llamarse `--juego-inset`, porque ahora la comparten el laberinto y el puzzle.
+
+### Notas
+- Se preguntó por el reparto: la cuadrícula es 3x3 y, tal y como pidió la organización, la pieza que se quita es la de la esquina superior derecha (es la zona de cielo del dibujo, la menos vistosa si falta).
+- Verificado en Chromium headless a 320, 360, 390 y 430 px: 8 fichas, sin desbordes horizontales, tocar una ficha lejana no mueve nada, el puzzle se resuelve con toques reales (14–18 movimientos), el modal y el recuadro muestran la respuesta correcta, «Mezclar otra vez» vuelve a desordenarlo y 0 errores de JavaScript.
+
 ## 2026-11-10 — La meta del laberinto ya no está fija en la esquina opuesta
 
 ### Añadido
