@@ -3,6 +3,7 @@
    --------------------------------------------------------------------------
    1. Apertura del Adventure Lab según la fecha.
    2. Modal de victoria con la respuesta de la etapa.
+   3. Recuperación de las respuestas guardadas en clave.
    ========================================================================== */
 (function () {
   "use strict";
@@ -84,13 +85,28 @@
     }
   }
 
+  /* Encoge la respuesta lo justo para que quepa en una línea en un móvil. */
+  function ajustarTamano(elemento, texto) {
+    var largo = texto.length;
+    var tamano = largo <= 10 ? 2 : largo <= 14 ? 1.625 : largo <= 18 ? 1.3125 : 1.0625;
+    elemento.style.fontSize = tamano + "rem";
+  }
+
+  /* Escribe la respuesta (en el modal o en el recuadro de la página) con el
+     tamaño adecuado a su longitud. */
+  function escribirRespuesta(elemento, texto) {
+    var limpio = texto || "Pendiente de definir";
+    elemento.textContent = limpio;
+    ajustarTamano(elemento, limpio);
+  }
+
   /* Muestra el modal con la respuesta indicada. Lo usan los cinco minijuegos. */
   function mostrarRespuesta(texto) {
     if (!modal) {
       modal = crearModal();
     }
 
-    modal.querySelector("[data-respuesta]").textContent = texto || "Pendiente de definir";
+    escribirRespuesta(modal.querySelector("[data-respuesta]"), texto);
     focoAnterior = document.activeElement;
     modal.hidden = false;
     document.documentElement.classList.add("sin-scroll");
@@ -123,5 +139,25 @@
     }
   });
 
+  /* ======================================================================
+     3. Respuestas de las etapas guardadas en clave
+     ====================================================================== */
+
+  /* Cada minijuego guarda su respuesta codificada (base64 de sus caracteres
+     mezclados con una llave propia) y la recupera al ganar con:
+        window.AD.abrir("...", "llave-del-juego")
+     Así el texto no aparece tal cual al abrir el archivo. */
+  window.AD.abrir = function (codificado, llave) {
+    var bytes = window.atob(codificado);
+    var texto = "";
+
+    for (var i = 0; i < bytes.length; i++) {
+      texto += String.fromCharCode(bytes.charCodeAt(i) ^ llave.charCodeAt(i % llave.length));
+    }
+
+    return texto;
+  };
+
   window.AD.mostrarRespuesta = mostrarRespuesta;
+  window.AD.escribirRespuesta = escribirRespuesta;
 })();

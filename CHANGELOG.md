@@ -2,6 +2,21 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Respuestas de las etapas guardadas en clave
+
+### Añadido
+- **`window.AD.abrir(codificado, llave)`** en `assets/js/common.js`: recupera la respuesta de una etapa a partir de su forma guardada (base64 de los caracteres mezclados con una llave propia de cada juego). Así ninguna respuesta aparece en claro al abrir los archivos del repositorio.
+- Las cinco respuestas del evento quedan definidas por la organización. La del **Laberinto** ya está incorporada en `assets/js/laberinto.js`; las otras cuatro se añadirán, con el mismo mecanismo, al programar sus juegos.
+
+### Modificado
+- **`assets/js/laberinto.js`**: `RESPUESTA` deja de ser un texto de prueba y pasa a ser `window.AD.abrir("…", "b4x8rf:26")`. El modal de victoria y el recuadro de la página muestran la respuesta ya descifrada.
+- **`AGENTS.md`**: nueva regla estricta en el apartado 4: las respuestas no se escriben en claro ni en el código ni en la documentación, y se recuperan siempre con `AD.abrir()`.
+- **`ROADMAP.md`**: la tarea de definir nombres, respuestas y URL del Lab queda cerrada (sin anotar los valores).
+
+### Notas
+- Comprobado que ninguna de las cinco respuestas aparece en texto plano en el repositorio (`grep` sobre todos los archivos) y que el recorrido completo del laberinto muestra la respuesta correcta en el modal y en el recuadro permanente.
+- Limitación conocida: al ser un sitio estático en un repositorio público, la codificación evita el hallazgo casual, pero cualquiera que separe el tiempo suficiente puede descifrarla.
+
 ## 2026-11-10 — Primer minijuego: el laberinto táctil
 
 ### Añadido

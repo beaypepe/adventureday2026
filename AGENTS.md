@@ -95,6 +95,8 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 * **Mecánica:** En la parte inferior hay un receptor que el jugador mueve horizontalmente arrastrando el dedo por la pantalla.
 * **Reglas y Victoria:** Caen logos (`item-good.png`) y bombas (`item-bad.png`). Cada logo suma `+1`. Chocar con una bomba resta una vida (o reinicia el contador/partida al perder las vidas). El juego termina con victoria al atrapar **26 logos**.
 
+* **Respuestas codificadas (REGLA ESTRICTA):** las cinco respuestas **no** se escriben en claro en el repositorio, ni en el código ni en la documentación (`AGENTS.md`, `ROADMAP.md`, `CHANGELOG.md`). Cada juego guarda la suya codificada (base64 de sus caracteres mezclados con una llave propia) y la recupera al ganar con `window.AD.abrir(codificado, llave)`, definido en `assets/js/common.js`. El repositorio es público: esto evita que alguien la encuentre de un vistazo, pero no es un secreto criptográfico.
+
 ---
 
 ## 5. Estructura de Archivos del Proyecto

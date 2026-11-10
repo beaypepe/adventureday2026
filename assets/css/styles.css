@@ -329,8 +329,8 @@ p {
 .game__respuesta strong {
   display: block;
   margin-top: 6px;
-  font-size: 1.5rem;
-  letter-spacing: 0.08em;
+  font-size: 1.3125rem;
+  letter-spacing: 0.02em;
   word-break: break-word;
 }
 
@@ -381,7 +381,7 @@ html.sin-scroll body {
   color: var(--color-orange);
   font-size: 2rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
   line-height: 1.1;
   word-break: break-word;
 }

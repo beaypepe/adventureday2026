@@ -9,8 +9,9 @@
 (function () {
   "use strict";
 
-  /* Respuesta de esta etapa: SUSTITUIR por la definitiva antes del evento. */
-  var RESPUESTA = "PENDIENTE";
+  /* Respuesta de esta etapa, guardada en clave (ver AD.abrir en common.js).
+     No se escribe en claro en el repositorio para que no se encuentre de un vistazo. */
+  var RESPUESTA = window.AD.abrir("EEEVWh05W1ZAB1oMTQADZQAGUAI=", "b4x8rf:26");
 
   var N = 6; // Cuadrícula 6x6: con 360 px de ancho salen pasillos de unos 53 px
 
@@ -258,7 +259,7 @@
     estado("¡Has llegado a la meta!");
 
     if (cajaRespuesta) {
-      cajaRespuesta.querySelector("[data-respuesta]").textContent = RESPUESTA;
+      window.AD.escribirRespuesta(cajaRespuesta.querySelector("[data-respuesta]"), RESPUESTA);
       cajaRespuesta.hidden = false;
     }
 

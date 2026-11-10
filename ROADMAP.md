@@ -4,8 +4,8 @@ Lista de tareas para el desarrollo completo del proyecto.
 
 ## Fase 1: Documentación y Base del Proyecto
 - [x] Crear `README.md`, `AGENTS.md`, `ROADMAP.md` y `CHANGELOG.md`.
-- [ ] Definir los 5 nombres aleatorios para las carpetas de las etapas (para que los asistentes no puedan adivinar las URLs), las 5 respuestas de las etapas y la URL del Adventure Lab.
-  - *Avance (2026-11-10):* definida la URL del Adventure Lab (enlazada en `index.html`) y los cinco nombres de carpeta: `b4x8rf` (Laberinto), `7k2m9p` (Puzzle), `3n9w2q` (Parejas), `m8d6fc` (Sopa de letras) y `5h1j7v` (Arcade). Pendientes las cinco respuestas.
+- [x] Definir los 5 nombres aleatorios para las carpetas de las etapas (para que los asistentes no puedan adivinar las URLs), las 5 respuestas de las etapas y la URL del Adventure Lab.
+  - *Avance (2026-11-10):* definida la URL del Adventure Lab (enlazada en `index.html`), los cinco nombres de carpeta (`b4x8rf`, `7k2m9p`, `3n9w2q`, `m8d6fc`, `5h1j7v`) y las cinco respuestas, que se guardan codificadas con `window.AD.abrir()` (nunca en claro). La del Laberinto ya está puesta; las otras cuatro se incorporarán al crear sus juegos.
 - [x] Crear la hoja de estilos global (`assets/css/styles.css`) y utilidades (`assets/js/common.js`) con diseño Mobile-Only, bloqueo de scroll en áreas táctiles, colores corporativos (`#d65b33`, `#ffffff`, `#02874d`), Header con fallback automático para `logo.png`, Footer con enlace a BeayPepe y modal de revelación de respuesta.
   - *Avance (2026-11-10):* `assets/css/styles.css` con paleta, reset, layout móvil, Header con fallback del logo, Footer, botón, imagen de acceso al Lab, tablero de juego y modal; `assets/js/common.js` con el bloqueo por fecha del Lab y `AD.mostrarRespuesta()`, el modal de revelación de respuesta que usarán los cinco juegos. El bloqueo de scroll táctil se aplica en los contenedores de juego (`touch-action: none`).
 - [x] Añadir marca de tiempo (`?v=`) a las referencias de `assets/` (CSS, JS e imágenes) y el script `tools/bump-versions.sh` para actualizarla, de modo que los móviles no sigan usando versiones antiguas desde la caché.
@@ -19,7 +19,7 @@ Lista de tareas para el desarrollo completo del proyecto.
 
 ## Fase 3: Desarrollo de los 5 Minijuegos (En sus carpetas)
 - [x] **Laberinto táctil** (`b4x8rf/`): implementado en `<canvas>` con cuadrícula 6x6 (pasillos de 47–60 px según el móvil). Permite rozar paredes, pero reinicia el recorrido si el trazo atraviesa un muro o si se apoya el dedo fuera del camino. Página `b4x8rf/index.html` y lógica en `assets/js/laberinto.js`.
-  - *Pendiente:* sustituir la respuesta de prueba (`RESPUESTA = "PENDIENTE"` en `laberinto.js`) por la definitiva.
+  - *Nota:* la respuesta real ya está incorporada, codificada, en `assets/js/laberinto.js`.
 - [ ] **Puzzle deslizante 3x3** (`7k2m9p/`): Implementar cuadrícula 3x3 con `assets/img/puzzle.png` (600x600px, con fallback numérico si no hay imagen), mezclando el tablero mediante 15-20 movimientos válidos inversos desde la posición resuelta para garantizar que siempre tenga solución rápida.
 - [ ] **Juego de parejas** (`3n9w2q/`): Implementar cuadrícula 4x5 (20 cartas / 10 parejas) usando `assets/img/cards/back.png` y `card1.png` a `card10.png` (200x200px, con fallback visual si aún no están las imágenes), giro 3D al tocar y descarte de parejas acertadas.
 - [ ] **Sopa de letras táctil** (`m8d6fc/`): Confirmar lista definitiva de palabras (ej. `GEOCACHING`, `ADVENTURELAB`, `EVENTO`) e implementar cuadrícula adaptada (12x12) con soporte táctil tanto por arrastre como por toque en primera y última letra.
