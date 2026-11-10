@@ -5,10 +5,12 @@ Lista de tareas para el desarrollo completo del proyecto.
 ## Fase 1: Documentación y Base del Proyecto
 - [x] Crear `README.md`, `AGENTS.md`, `ROADMAP.md` y `CHANGELOG.md`.
 - [ ] Definir los 5 nombres aleatorios para las carpetas de las etapas (para que los asistentes no puedan adivinar las URLs), las 5 respuestas de las etapas y la URL del Adventure Lab.
+  - *Avance (2026-11-10):* definida la URL del Adventure Lab y enlazada en `index.html`. Pendientes los 5 nombres de carpeta y las 5 respuestas.
 - [ ] Crear la hoja de estilos global (`assets/css/styles.css`) y utilidades (`assets/js/common.js`) con diseño Mobile-Only, bloqueo de scroll en áreas táctiles, colores corporativos (`#d65b33`, `#ffffff`, `#02874d`), Header con fallback automático para `logo.png`, Footer con enlace a BeayPepe y modal de revelación de respuesta.
+  - *Avance (2026-11-10):* creada la base de `assets/css/styles.css` (paleta corporativa, reset, layout móvil, Header con fallback del logo, Footer y botón). Pendientes `assets/js/common.js`, el bloqueo de scroll en áreas táctiles y el modal de revelación de respuesta.
 
 ## Fase 2: Páginas Generales y Captura de QRs Falsos
-- [ ] Crear `index.html` (Página de inicio accesible desde la descripción del evento con instrucciones breves de la dinámica de los QR en la mesa y botón de acceso al Adventure Lab).
+- [x] Crear `index.html` (Página de inicio accesible desde la descripción del evento con instrucciones breves de la dinámica de los QR en la mesa y botón de acceso al Adventure Lab).
 - [ ] Crear `404.html` (Página a la que redirigirán automáticamente todos los códigos QR incorrectos/señuelos con el mensaje "Aquí no hay nada... sigue buscando", usando rutas absolutas a `/adventureday2026/assets/`).
 
 ## Fase 3: Desarrollo de los 5 Minijuegos (En sus carpetas aleatorias)
