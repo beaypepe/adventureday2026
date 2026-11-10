@@ -13,7 +13,7 @@
      No se escribe en claro en el repositorio para que no se encuentre de un vistazo. */
   var RESPUESTA = window.AD.abrir("EEEVWh05W1ZAB1oMTQADZQAGUAI=", "b4x8rf:26");
 
-  var N = 6; // Cuadrícula 6x6: con 360 px de ancho salen pasillos de unos 53 px
+  var N = 8; // Cuadrícula 8x8: a todo el ancho del móvil salen pasillos de 40 a 54 px
 
   var canvas = document.getElementById("laberinto");
   var textoEstado = document.getElementById("estado");

@@ -58,7 +58,7 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 
 ### Etapa 1: El Laberinto Táctil (HTML5 Canvas + Touch API)
 * **Tamaño y Ergonomía ("Dedos Gordos"):** 
-  * **CRÍTICO:** En pantallas de móvil de `360px` de ancho, una cuadrícula de 10x10 o 12x12 deja pasillos demasiado estrechos y el propio dedo tapa el camino. Se debe utilizar una cuadrícula más amplia y cómoda, de **6x6, 7x7 u 8x8 celdas** como máximo (pasillos de al menos `45px–55px` de ancho).
+  * **CRÍTICO:** En pantallas de móvil de `360px` de ancho, una cuadrícula de 10x10 o 12x12 deja pasillos demasiado estrechos y el propio dedo tapa el camino. La cuadrícula es de **8x8 celdas** (el máximo admitido) y el `<canvas>` ocupa **todo el ancho de la pantalla**, rompiendo el margen lateral del contenido, para que los pasillos midan 40–54 px según el móvil.
 * **Mecánica de Colisión (Rozar vs. Atravesar):**
   * **NO** se penaliza que el jugador roce o toque los bordes de las paredes con el dedo (algo natural en pantallas táctiles).
   * Lo que está **prohibido es ATRAVESAR una pared** (pasar de una celda a otra cuando existe un muro entre ambas, o saltar celdas haciendo trampa).

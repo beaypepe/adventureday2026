@@ -2,6 +2,17 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — El laberinto crece a 8x8 y pierde las esquinas redondeadas
+
+### Modificado
+- **`assets/js/laberinto.js`**: la cuadrícula pasa de 6x6 a **8x8** celdas. La solución media sube de unas 19 casillas a unas 32, así que el recorrido es más largo y pide más atención sin dejar de resolverse en menos de un minuto.
+- **`assets/css/styles.css`**: `.maze` pierde el `border-radius` (esquinas rectas) y pasa a ocupar **todo el ancho de la pantalla**, rompiendo el margen lateral del contenido (`width: calc(100% + 2 * var(--page-gutter))` con márgenes negativos). Así los pasillos miden 40 px en móviles de 320 px, 45 px en los de 360, 49 px en los de 390 y 54 px en los de 430, en lugar de los 35 px a los que se quedaban con 8x8 dentro del contenedor.
+- **`AGENTS.md`** y **`ROADMAP.md`**: la especificación del laberinto recoge la cuadrícula 8x8 y el lienzo a todo lo ancho.
+
+### Notas
+- Se probaron 8x8 y 9x9: con 9x9 la solución media sube a unas 39,5 casillas (solo 7 más) pero los pasillos bajan a 31 px en móviles de 320, demasiado estrechos para el dedo. Se descarta el 9x9.
+- Verificado en Chromium headless a 320, 360, 390 y 430 px: sin desbordes horizontales, cruzar una pared reinicia el recorrido, apoyar el dedo fuera del camino también, el trazo completo llega a la meta y el modal muestra la respuesta correcta, con 0 errores de JavaScript.
+
 ## 2026-11-10 — Respuestas de las etapas guardadas en clave
 
 ### Añadido
