@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d65b33">
+  <link rel="icon" type="image/png" href="/adventureday2026/assets/img/favicon.png?v=20261110153236">
+  <link rel="apple-touch-icon" href="/adventureday2026/assets/img/apple-touch-icon.png?v=20261110153236">
+  <title>Parejas — Adventure Day 2026</title>
+  <meta name="description" content="Minijuego del Adventure Day 2026: encuentra las diez parejas de cartas.">
+  <!-- Marca de tiempo (?v=) en CSS, JS e imágenes: obliga al móvil a descargar la
+       versión nueva en lugar de usar la que tiene en caché. Se actualiza con
+       tools/bump-versions.sh antes de publicar cambios en assets/. -->
+  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css?v=20261110153236">
+</head>
+<body>
+
+  <!-- Header (común a todas las páginas). Si logo.png no carga, se oculta y aparece el texto. -->
+  <header class="site-header">
+    <a class="site-header__link" href="/adventureday2026/">
+      <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png?v=20261110153236" alt="Adventure Day 2026"
+           onerror="this.hidden = true; this.nextElementSibling.hidden = false;">
+      <span class="site-header__title" hidden>Adventure Day 2026</span>
+    </a>
+  </header>
+
+  <main class="site-main game">
+    <h1>Parejas</h1>
+    <p id="instrucciones">Toca dos cartas para darles la vuelta. Si son iguales se quedan boca arriba; si no, se vuelven a tapar.</p>
+
+    <!-- Tablero de 4x5 cartas. Las cartas las crea parejas.js. -->
+    <div class="cartas" id="cartas" aria-describedby="instrucciones"></div>
+
+    <p class="game__estado" id="estado" role="status">Parejas: 0 de 10</p>
+
+    <button class="btn btn--secundario" id="barajar" type="button">Barajar otra vez</button>
+
+    <p class="game__respuesta" id="respuesta-final" role="status" hidden>Respuesta de esta etapa:<strong data-respuesta></strong></p>
+  </main>
+
+  <!-- Footer (común a todas las páginas) -->
+  <footer class="site-footer">
+    Una ocurrencia de <a href="https://beaypepe.com" target="_blank" rel="noopener">BeayPepe</a>
+  </footer>
+
+  <!-- Imágenes de las cartas: se cargan aquí (ocultas) para que el navegador las
+       tenga listas y para que tools/bump-versions.sh les actualice el ?v=.
+       Si alguna no existe todavía, la carta muestra su emoji de reserva. -->
+  <div hidden>
+    <img id="img-reverso" src="/adventureday2026/assets/img/cards/back.png?v=20261110153236" alt="">
+    <img id="img-carta-1" src="/adventureday2026/assets/img/cards/card1.png?v=20261110153236" alt="">
+    <img id="img-carta-2" src="/adventureday2026/assets/img/cards/card2.png?v=20261110153236" alt="">
+    <img id="img-carta-3" src="/adventureday2026/assets/img/cards/card3.png?v=20261110153236" alt="">
+    <img id="img-carta-4" src="/adventureday2026/assets/img/cards/card4.png?v=20261110153236" alt="">
+    <img id="img-carta-5" src="/adventureday2026/assets/img/cards/card5.png?v=20261110153236" alt="">
+    <img id="img-carta-6" src="/adventureday2026/assets/img/cards/card6.png?v=20261110153236" alt="">
+    <img id="img-carta-7" src="/adventureday2026/assets/img/cards/card7.png?v=20261110153236" alt="">
+    <img id="img-carta-8" src="/adventureday2026/assets/img/cards/card8.png?v=20261110153236" alt="">
+    <img id="img-carta-9" src="/adventureday2026/assets/img/cards/card9.png?v=20261110153236" alt="">
+    <img id="img-carta-10" src="/adventureday2026/assets/img/cards/card10.png?v=20261110153236" alt="">
+  </div>
+
+  <script src="/adventureday2026/assets/js/common.js?v=20261110153236"></script>
+  <script src="/adventureday2026/assets/js/parejas.js?v=20261110153236"></script>
+
+</body>
+</html>

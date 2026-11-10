@@ -1,0 +1,25 @@
+Cartas del juego de parejas (etapa 3n9w2q)
+==========================================
+
+Aquí van 11 imágenes PNG, cuadradas:
+
+  back.png    -> el reverso (lo que se ve con la carta boca abajo)
+  card1.png   -> pareja 1
+  card2.png   -> pareja 2
+  card3.png   -> pareja 3
+  card4.png   -> pareja 4
+  card5.png   -> pareja 5
+  card6.png   -> pareja 6
+  card7.png   -> pareja 7
+  card8.png   -> pareja 8
+  card9.png   -> pareja 9
+  card10.png  -> pareja 10
+
+Nombres exactos: minúsculas, sin acentos, sin espacios y con extensión .png.
+
+Tamaño: 400 x 400 píxeles (cuadrado). Con 400x400 se ven nítidas en móviles de
+pantalla de alta densidad; el mínimo recomendado son 200 x 200. El juego las
+escala a la casilla, así que cualquier tamaño cuadrado vale.
+
+Mientras estos archivos no existan, cada carta muestra un emoji y su número de
+pareja, así que el juego funciona igual.

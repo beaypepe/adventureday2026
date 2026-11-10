@@ -2,6 +2,21 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Tercer minijuego: el juego de parejas
+
+### Añadido
+- **`3n9w2q/index.html`** (carpeta asignada a Parejas): página con el Header y el Footer comunes, instrucciones, tablero de 4×5 cartas, contador «Parejas: N de 10», botón «Barajar otra vez» y el recuadro de la respuesta.
+- **`assets/js/parejas.js`**: lógica del juego.
+  - 20 cartas (10 parejas repetidas dos veces) barajadas con **Fisher-Yates**.
+  - Al tocar una carta gira en 3D; solo pueden estar dos a la vista. Si coinciden se quedan boca arriba con marco verde; si no, se tapan otra vez a los **800 ms**.
+  - Se gana al encontrar las diez parejas; el modal y el recuadro muestran la respuesta, que se guarda codificada (`window.AD.abrir("…", "3n9w2q:26")`).
+  - **Reserva sin imágenes:** cada carta enseña un emoji temático sobre un color pastel propio y, en la esquina, el número de la pareja; el reverso es verde con el logo. Cuando existan las imágenes de `assets/img/cards/`, se usan automáticamente (cada carta comprueba la suya y, si carga, tapa el emoji y el número).
+- **`assets/img/cards/LEEME.txt`**: medidas y nombres exactos de las 11 imágenes pendientes (`back.png` y `card1.png` a `card10.png`, 400×400 px, cuadradas, PNG).
+- **`assets/css/styles.css`**: bloque del juego de parejas (`.cartas`, `.carta`, giro 3D, caras, reverso y estados de pareja encontrada).
+
+### Notas
+- Verificado en Chromium con toques reales a 320, 360, 390 y 430 px: 20 cartas, cada pareja dos veces, sin desbordes, acierto y fallo (con el retapado a los 800 ms), victoria con la respuesta correcta, «Barajar otra vez» deja el tablero boca abajo y 0 errores de JavaScript. También se probó con imágenes servidas de prueba: las caras y el reverso cambian a las imágenes y desaparecen emoji y número.
+
 ## 2026-11-10 — Vuelve el botón «Empezar de nuevo»
 
 ### Modificado

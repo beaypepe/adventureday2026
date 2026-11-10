@@ -75,12 +75,13 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 * **Accesibilidad:** cada ficha es un `<button>` con `aria-label` («Ficha 3, fila 1, columna 2»), así que se puede jugar con teclado (Tab + Enter) y los lectores de pantalla saben qué pieza está dónde.
 
 ### Etapa 3: Juego de Memoria / Encontrar Parejas (Grid 4x5)
-* **Activos gráficos:** 
-  * **Ubicación:** Carpeta `/adventureday2026/assets/img/cards/`
-  * **Reverso de las cartas:** `back.png` (**200×200 píxeles**, formato PNG).
-  * **Anverso (10 parejas = 10 archivos):** `card1.png`, `card2.png`, `card3.png`, `card4.png`, `card5.png`, `card6.png`, `card7.png`, `card8.png`, `card9.png`, `card10.png` (**200×200 píxeles** cada uno, proporción 1:1, formato PNG).
-  * **Fallback:** Si alguna imagen aún no existe en el servidor, la carta mostrará automáticamente un icono/emoji o número distintivo para poder jugar sin errores.
-* **Mecánica:** Cuadrícula de **20 cartas (4 columnas × 5 filas en vertical)** dadas la vuelta y barajadas con el algoritmo Fisher-Yates.
+* **Activos gráficos:**
+  * **Ubicación:** Carpeta `/adventureday2026/assets/img/cards/` (con un `LEEME.txt` que repite estas medidas).
+  * **Reverso de las cartas:** `back.png` (**400×400 píxeles** recomendado, cuadrado y PNG; mínimo 200×200).
+  * **Anverso (10 parejas = 10 archivos):** `card1.png`, `card2.png`, `card3.png`, `card4.png`, `card5.png`, `card6.png`, `card7.png`, `card8.png`, `card9.png`, `card10.png` (**400×400 píxeles** recomendado cada uno, proporción 1:1, formato PNG).
+  * **Nombres exactos:** minúsculas, sin acentos, sin espacios y con extensión `.png`.
+  * **Fallback:** Si alguna imagen aún no existe en el servidor, la carta muestra un **emoji temático** (globo, carpa, diana, dado, brújula, mapa, lupa, chincheta, trofeo, entrada) sobre un color pastel propio y, en la esquina, el **número de la pareja**. Así el juego funciona sin ninguna imagen y también se distingue si el móvil no dibuja emojis. El reverso de reserva es verde con el logo.
+* **Mecánica:** Cuadrícula de **20 cartas (4 columnas × 5 filas en vertical)** boca abajo y barajadas con el algoritmo Fisher-Yates. Página con instrucciones, contador «Parejas: N de 10» y botón «Barajar otra vez».
 * **Interacción:** Al tocar dos cartas, giran con efecto 3D (`rotateY(180deg)`). Si tienen el mismo logo, quedan emparejadas/descartadas; si no, vuelven a voltearse tras `800ms`. Gana al descubrir las 10 parejas.
 
 ### Etapa 4: Sopa de Letras Táctil
@@ -122,13 +123,15 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 │   ├── js/
 │   │   ├── common.js           # Funciones compartidas (fecha del Lab, modal de respuesta)
 │   │   ├── laberinto.js       # Lógica del laberinto táctil
-│   │   └── puzzle.js          # Lógica del puzzle deslizante
+│   │   ├── puzzle.js          # Lógica del puzzle deslizante
+│   │   └── parejas.js         # Lógica del juego de parejas
 │   └── img/
 │       ├── favicon.png         # Icono del sitio en la pestaña (180x180px)
 │       ├── apple-touch-icon.png # Icono para iOS (180x180px)
 │       ├── logo.png            # Logo del encabezado (600x160px)
 │       ├── puzzle.png          # Imagen cuadrada para Etapa 2 (600x600px)
-│       ├── cards/              # Imágenes para Etapa 3 (200x200px cada una)
+│       ├── cards/              # Imágenes para Etapa 3 (400x400px cada una)
+│       │   ├── LEEME.txt      # Medidas y nombres de las cartas
 │       │   ├── back.png        # Parte trasera de las cartas
 │       │   ├── card1.png       # Pareja 1
 │       │   ├── ...             # ...

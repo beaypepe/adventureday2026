@@ -391,6 +391,116 @@ p {
   box-shadow: 0 0 0 2px var(--color-green), 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 
+/* ---------- Juego de parejas ---------- */
+.cartas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  /* Mismo ancho que el laberinto y el puzzle: casi todo, con un respiro a cada lado */
+  width: calc(100% + 2 * var(--page-gutter) - 2 * var(--juego-inset));
+  margin: 8px calc(var(--juego-inset) - var(--page-gutter)) 0;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.carta {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  perspective: 500px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.carta__interior {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease;
+}
+
+/* Giro 3D al dar la vuelta a la carta */
+.carta--volteada .carta__interior {
+  transform: rotateY(180deg);
+}
+
+.carta__cara {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* Reverso de reserva: verde con el logo. Si existe cards/back.png, manda la imagen */
+.carta__cara--detras {
+  background-color: var(--color-green);
+  background-image: url("/adventureday2026/assets/img/logo.png?v=20261110150000");
+  background-size: 78% auto;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
+.cartas--con-reverso .carta__cara--detras {
+  background-image: var(--reverso);
+  background-size: cover;
+}
+
+/* Anverso: el emoji de reserva sobre su color; si hay imagen, la imagen */
+.carta__cara--delante {
+  transform: rotateY(180deg);
+  background-color: #ffd9c7;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.12);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+/* Número pequeño de la pareja, en la esquina de la carta */
+.carta__numero {
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* Con la imagen de la carta, ni emoji ni número */
+.carta--con-imagen .carta__simbolo,
+.carta--con-imagen .carta__numero {
+  display: none;
+}
+
+/* Pareja encontrada: se queda boca arriba con el marco verde */
+.carta--emparejada {
+  cursor: default;
+}
+
+.carta--emparejada .carta__cara--delante {
+  box-shadow: inset 0 0 0 3px var(--color-green);
+}
+
+.carta:focus-visible .carta__interior {
+  outline: 3px solid var(--color-green);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* Tablero completo */
+.cartas--resueltas {
+  box-shadow: 0 0 0 2px var(--color-green);
+  border-radius: 12px;
+}
+
 .game__estado {
   margin: 16px 0 0;
   min-height: 2.6em;
