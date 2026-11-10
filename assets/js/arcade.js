@@ -17,7 +17,7 @@
   var RESPUESTA = window.AD.abrir("VglLC2gaVVVZRjcDWgVA", "5h1j7v:26");
 
   var META = 26;          // logos que hay que atrapar para ganar
-  var MAX_OBJETOS = 14;   // tope de figuras cayendo a la vez
+  var MAX_OBJETOS = 18;   // tope de figuras cayendo a la vez
 
   var canvas = document.getElementById("arcade");
   var textoEstado = document.getElementById("estado");
@@ -66,17 +66,18 @@
     }
   }
 
-  /* Cuanto más avanza la partida, más rápido caen y más bombas salen */
+  /* Cuanto más avanza la partida, más rápido caen y más bombas salen.
+     Si en el evento se ve demasiado duro (o demasiado fácil), se toca aquí. */
   function velocidad() {
-    return alto * (0.42 + atrapados * 0.012);
+    return alto * (0.50 + atrapados * 0.020);
   }
 
   function intervalo() {
-    return Math.max(0.42, 0.95 - atrapados * 0.016);
+    return Math.max(0.30, 0.70 - atrapados * 0.018);
   }
 
   function probabilidadBomba() {
-    return Math.min(0.38, 0.16 + atrapados * 0.007);
+    return Math.min(0.52, 0.30 + atrapados * 0.009);
   }
 
   /* ---------- Tamaños ---------- */

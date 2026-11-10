@@ -2,6 +2,19 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — El arcade, más difícil
+
+### Modificado
+- **`assets/js/arcade.js`**: subida la dificultad después de la primera prueba, que resultó demasiado fácil («hay muchos logos y pocas bombas»).
+  - **Más bombas desde el principio:** la probabilidad de bomba pasa del 30 % al 52 % según sube el contador (antes, del 16 % al 38 %).
+  - **Más rápido:** la velocidad de caída pasa de 0,50 a 0,97 alturas de pantalla por segundo (antes, de 0,42 a 0,73) y el intervalo entre figuras baja de 0,70 a 0,30 s (antes, de 0,95 a 0,42 s).
+  - Hasta **18 figuras** a la vez (antes 14).
+  - Los tres valores siguen en una sola función cada uno (`velocidad()`, `intervalo()` y `probabilidadBomba()`), para poder afinarlos en el evento sin tocar nada más.
+- **`assets/img/arcade/LEEME.txt`**: recordatorio dentro de la carpeta con los nombres, medidas y formato de los tres dibujos.
+
+### Notas
+- Medido con el mismo bot ingenuo durante 45 s a 360 px: antes atrapaba 12 logos y recibía 4 bombazos; ahora se queda en 9 logos y recibe 9 bombazos, con hasta 9 bombas a la vez en pantalla. Sigue habiendo partidas en las que se puede ganar: el bot sin bombas llega a los 26.
+
 ## 2026-11-10 — Quinto minijuego: el arcade de los logos
 
 ### Añadido

@@ -1,0 +1,19 @@
+Imágenes del arcade «Atrapa el logo» (etapa 5h1j7v)
+=====================================================
+
+Aquí van los tres dibujos del minijuego, en PNG con fondo transparente
+y con estos nombres exactos (el juego los busca solo, sin tocar el código):
+
+item-good.png  →  el logo que cae y hay que atrapar ........ 128 × 128 px
+item-bad.png   →  la bomba que hay que esquivar ............ 128 × 128 px
+player.png     →  la cesta que recoge los logos ............ 160 × 100 px  (opcional)
+
+Detalles:
+- Los logos y las bombas se dibujan cuadrados; la cesta se dibuja algo más
+  ancha que alta (mantén la proporción 160 × 100).
+- Conviene que la figura ocupe casi todo el lienzo y que el centro del dibujo
+  coincida con el centro de la imagen.
+- Mientras falte alguno, el canvas pinta una reserva vectorial (globo naranja,
+  círculo negro con cruz y cesta verde), así que el juego se puede jugar igual.
+- Para que el móvil no guarde versiones antiguas, la página añade ?v= a las
+  tres rutas; no hay que cambiar nada en el HTML.
