@@ -2,6 +2,17 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Página temporal con los cinco QR
+
+### Añadido
+- **`probar/index.html`**: página **provisional** para probar los cinco juegos en el móvil. Sin Header ni Footer del sitio y sin nada más: solo los cinco códigos QR, cada uno con el nombre del juego y su ruta debajo. Se abre en `https://beaypepe.github.io/adventureday2026/probar/` y lleva a `b4x8rf/`, `7k2m9p/`, `3n9w2q/`, `m8d6fc/` y `5h1j7v/`.
+- **`probar/qr/`**: los cinco QR en SVG (`laberinto.svg`, `puzzle.svg`, `parejas.svg`, `sopa.svg` y `arcade.svg`), generados sin conexión y servidos desde el propio sitio, así que la página no depende de ningún servicio externo.
+
+### Notas
+- Los QR se leen a plena pantalla (corrección de errores Q). Comprobado decodificando las cinco imágenes: cada una abre exactamente su URL.
+- La página lleva `noindex, nofollow` porque es solo para pruebas.
+- **Para eliminarla cuando ya no haga falta:** borrar la carpeta `probar/` y este apartado del `CHANGELOG.md`. No está enlazada desde ninguna otra página.
+
 ## 2026-11-10 — El arcade, más difícil
 
 ### Modificado
