@@ -411,6 +411,7 @@ p {
   background: none;
   perspective: 500px;
   cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -487,6 +488,16 @@ p {
 
 .carta--emparejada .carta__cara--delante {
   box-shadow: inset 0 0 0 3px var(--color-green);
+}
+
+/* Pareja completada: la carta se desvanece y deja el hueco vacío.
+   Se queda ocupando su sitio (visibility) para que el tablero no se recoloque. */
+.carta--fuera {
+  opacity: 0;
+  transform: scale(0.85);
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+  pointer-events: none;
 }
 
 .carta:focus-visible .carta__interior {

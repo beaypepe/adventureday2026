@@ -2,6 +2,15 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Las parejas acertadas desaparecen
+
+### Modificado
+- **`assets/js/parejas.js`**: al acertar una pareja, las dos cartas se marcan con marco verde y, **450 ms después, se desvanecen**. Antes se quedaban boca arriba y el tablero acababa lleno de cartas destapadas.
+- **`assets/css/styles.css`**: clase `.carta--fuera` con la transición de salida (opacidad a 0 y escala 0.85 en 300 ms). La carta se oculta con `visibility: hidden`, así que **sigue ocupando su sitio en la cuadrícula** y las demás no se recolocan. Al pulsar «Barajar otra vez» vuelven todas.
+
+### Notas
+- Verificado en Chromium (360×780): tras acertar, las dos cartas pasan a `visibility: hidden` y `opacity: 0`, y las otras dieciocho no se mueven ni un píxel; al barajar reaparecen las veinte. 0 errores de JavaScript.
+
 ## 2026-11-10 — Tercer minijuego: el juego de parejas
 
 ### Añadido

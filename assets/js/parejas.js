@@ -202,6 +202,13 @@
     b.disabled = true;
     a.setAttribute("aria-label", a.getAttribute("aria-label") + ", emparejada");
     b.setAttribute("aria-label", b.getAttribute("aria-label") + ", emparejada");
+
+    // Un instante después la pareja desaparece (el hueco se queda vacío, sin
+    // mover las demás cartas), para que el tablero se vea cada vez más limpio.
+    window.setTimeout(function () {
+      a.classList.add("carta--fuera");
+      b.classList.add("carta--fuera");
+    }, 450);
   }
 
   function ganar() {
@@ -298,7 +305,7 @@
     for (var i = 0; i < botones.length; i++) {
       var boton = botones[i];
 
-      boton.classList.remove("carta--volteada", "carta--emparejada");
+      boton.classList.remove("carta--volteada", "carta--emparejada", "carta--fuera");
       boton.disabled = false;
       boton.setAttribute("aria-label", "Carta boca abajo");
       boton.dataset.pareja = String(mazo[i]);

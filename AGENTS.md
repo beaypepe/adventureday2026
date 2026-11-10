@@ -82,7 +82,7 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
   * **Nombres exactos:** minúsculas, sin acentos, sin espacios y con extensión `.png`.
   * **Fallback:** Si alguna imagen aún no existe en el servidor, la carta muestra un **emoji temático** (globo, carpa, diana, dado, brújula, mapa, lupa, chincheta, trofeo, entrada) sobre un color pastel propio y, en la esquina, el **número de la pareja**. Así el juego funciona sin ninguna imagen y también se distingue si el móvil no dibuja emojis. El reverso de reserva es verde con el logo.
 * **Mecánica:** Cuadrícula de **20 cartas (4 columnas × 5 filas en vertical)** boca abajo y barajadas con el algoritmo Fisher-Yates. Página con instrucciones, contador «Parejas: N de 10» y botón «Barajar otra vez».
-* **Interacción:** Al tocar dos cartas, giran con efecto 3D (`rotateY(180deg)`). Si tienen el mismo logo, quedan emparejadas/descartadas; si no, vuelven a voltearse tras `800ms`. Gana al descubrir las 10 parejas.
+* **Interacción:** Al tocar dos cartas, giran con efecto 3D (`rotateY(180deg)`). Si coinciden, se marcan con marco verde y **desaparecen** medio segundo después: el hueco se queda vacío y las demás cartas **no se recolocan** (la carta se oculta con `visibility`, sin sacarla de la cuadrícula). Si no coinciden, vuelven a voltearse tras `800ms`. Gana al descubrir las 10 parejas.
 
 ### Etapa 4: Sopa de Letras Táctil
 * **Palabras a buscar:** Se confirmarán al programar la etapa, pero se debe contemplar por defecto el uso de palabras largas como `"GEOCACHING"`, `"ADVENTURELAB"` (12 letras) y `"EVENTO"` (más alguna adicional si se decide).
