@@ -6,13 +6,16 @@
   <meta name="theme-color" content="#d65b33">
   <title>Adventure Day 2026 — BeayPepe</title>
   <meta name="description" content="Adventure Day 2026 de BeayPepe: encuentra los códigos QR buenos, supera los minijuegos y completa el Adventure Lab.">
-  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css">
+  <!-- Marca de tiempo (?v=) en CSS, JS e imágenes: obliga al móvil a descargar la
+       versión nueva en lugar de usar la que tiene en caché. Se actualiza con
+       tools/bump-versions.sh antes de publicar cambios en assets/. -->
+  <link rel="stylesheet" href="/adventureday2026/assets/css/styles.css?v=20261110111055">
 </head>
 <body>
 
   <!-- Header (común a todas las páginas). Si logo.png no carga, se oculta y aparece el texto. -->
   <header class="site-header">
-    <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png" alt="Adventure Day 2026"
+    <img class="site-header__logo" src="/adventureday2026/assets/img/logo.png?v=20261110111055" alt="Adventure Day 2026"
          onerror="this.hidden = true; this.nextElementSibling.hidden = false;">
     <span class="site-header__title" hidden>Adventure Day 2026</span>
   </header>

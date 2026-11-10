@@ -10,6 +10,7 @@ Este documento define la arquitectura, reglas de diseño, restricciones tecnoló
 * **Tecnologías permitidas:** Exclusivamente **HTML5, CSS3 y JavaScript (Vanilla JS)**. 
 * **Restricción de servidor:** Al alojarse en GitHub Pages, **NO** se puede utilizar PHP, bases de datos ni procesamiento backend. Todo debe ejecutarse en el navegador del cliente (*client-side*).
 * **Rutas relativas/base:** El proyecto se sirve desde la subcarpeta `/adventureday2026/` en GitHub Pages. Todas las referencias a estilos e imágenes deben usar rutas absolutas respecto al subdirectorio (`/adventureday2026/assets/...`) para que funcionen tanto desde la raíz (`index.html`, `404.html`) como desde las subcarpetas de las etapas o desde cualquier URL inexistente.
+* **Caché:** toda referencia a un archivo de `assets/` debe ir acompañada de la marca de tiempo `?v=...` descrita en el apartado 7.
 
 ---
 
@@ -102,6 +103,8 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 ├── AGENTS.md                   # Este archivo de directrices técnicas
 ├── ROADMAP.md                  # Lista de tareas pendientes y completadas
 ├── CHANGELOG.md                # Registro cronológico de cambios realizados
+├── tools/
+│   └── bump-versions.sh        # Actualiza la marca de tiempo (?v=) de los activos
 ├── assets/
 │   ├── css/
 │   │   └── styles.css          # Estilos globales (Header, Footer, Reset, Layout móvil, Modales)
@@ -138,3 +141,15 @@ Cada vez que se complete una tarea o se realice un cambio de los listados en `RO
 1. **Actualizar `ROADMAP.md`:** Marcar la tarea correspondiente como completada (`[x]`).
 2. **Actualizar `CHANGELOG.md`:** Añadir una nueva entrada con la fecha y el detalle técnico de lo que se ha creado o modificado.
 3. No dar por cerrada una fase sin entregar la actualización de ambos archivos.
+
+---
+
+## 7. Caché del Móvil y Versionado de Activos (REGLA ESTRICTA)
+Los navegadores móviles guardan en caché el CSS, el JavaScript y las imágenes, y tras un cambio pueden seguir usando la versión antigua durante un buen rato. Para que el día del evento (y en las pruebas) siempre se cargue la última versión:
+
+* **Marca de tiempo obligatoria:** toda referencia local a `/adventureday2026/assets/...` (hojas de estilo, scripts e imágenes) debe llevar el parámetro `?v=AAAAMMDDHHMMSS`, por ejemplo:
+  `/adventureday2026/assets/css/styles.css?v=20261129103000`.
+* **No se versionan renombrando archivos:** los nombres y rutas del apartado 5 se mantienen siempre; solo cambia el valor de `?v=`.
+* **Script del proyecto:** antes de publicar cualquier cambio en `assets/`, ejecutar `tools/bump-versions.sh`. Aplica la fecha y hora actuales (UTC) a todos los archivos `.html` del proyecto y muestra la marca utilizada. Admite una marca manual: `tools/bump-versions.sh 20261129103000`. Es idempotente (no duplica el parámetro).
+* **Páginas nuevas:** cualquier `index.html` nuevo (etapas) o `404.html` debe incluir el `?v=` desde el principio y pasar por el script antes de publicarse.
+* **HTML:** las páginas no se pueden versionar de este modo; GitHub Pages las envía con una caché de unos 10 minutos, así que un cambio recién publicado puede tardar un poco en verse en el móvil.

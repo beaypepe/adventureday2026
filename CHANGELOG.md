@@ -2,6 +2,23 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Versionado de los activos para evitar la caché del móvil
+
+### Añadido
+- **`tools/bump-versions.sh`**: script de mantenimiento que añade o actualiza el parámetro `?v=AAAAMMDDHHMMSS` en todas las referencias locales a `/adventureday2026/assets/...` de los archivos `.html`.
+  - Sin argumentos usa la fecha y hora actuales en UTC; admite una marca manual (`tools/bump-versions.sh 20261129103000`) y valida que tenga 14 dígitos.
+  - Es idempotente: ejecutarlo varias veces nunca duplica el parámetro, solo cambia su valor. Requiere `perl` (incluido por defecto en macOS y Linux) y no modifica nada más.
+
+### Modificado
+- **`index.html`**: la hoja de estilos y el logo se referencian ahora con marca de tiempo (`styles.css?v=...`, `logo.png?v=...`), y se ha añadido un comentario explicando cómo actualizarla. Marca en uso: `v=20261110111055`.
+- **`assets/img/logo.png`** y **`assets/img/puzzle.png`** (subidas desde GitHub): imágenes definitivas del logo (600×160) y del puzzle de la etapa 2 (600×600). El Header ya muestra el logo real y el texto de reserva sigue disponible por si algún día falta el archivo.
+- **`AGENTS.md`**: nuevo apartado 7 «Caché del móvil y versionado de activos», que hace obligatorio el `?v=` en toda referencia a `assets/`, prohíbe versionar renombrando archivos y obliga a ejecutar el script antes de publicar cambios. El árbol de archivos del apartado 5 incluye ahora `tools/` y el apartado 1 remite al 7.
+
+### Notas
+- El script se ejecutará antes de cada publicación que afecte a `assets/`. GitHub Pages cachea el HTML unos 10 minutos, así que un cambio recién publicado puede tardar un poco en verse en el móvil.
+- Comprobado con la caché de 600 s simulada: cambiando el CSS sin tocar el `?v=`, el navegador sigue mostrando el estilo antiguo; con la marca nueva, descarga el archivo nuevo.
+- `assets/img/logo.txt` contiene solo una nota de texto («aquí va el logo») y no se usa en la web; se puede borrar sin más.
+
 ## 2026-11-10 — Página de inicio y base de estilos
 
 ### Añadido

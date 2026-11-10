@@ -8,6 +8,7 @@ Lista de tareas para el desarrollo completo del proyecto.
   - *Avance (2026-11-10):* definida la URL del Adventure Lab y enlazada en `index.html`. Pendientes los 5 nombres de carpeta y las 5 respuestas.
 - [ ] Crear la hoja de estilos global (`assets/css/styles.css`) y utilidades (`assets/js/common.js`) con diseño Mobile-Only, bloqueo de scroll en áreas táctiles, colores corporativos (`#d65b33`, `#ffffff`, `#02874d`), Header con fallback automático para `logo.png`, Footer con enlace a BeayPepe y modal de revelación de respuesta.
   - *Avance (2026-11-10):* creada la base de `assets/css/styles.css` (paleta corporativa, reset, layout móvil, Header con fallback del logo, Footer y botón). Pendientes `assets/js/common.js`, el bloqueo de scroll en áreas táctiles y el modal de revelación de respuesta.
+- [x] Añadir marca de tiempo (`?v=`) a las referencias de `assets/` (CSS, JS e imágenes) y el script `tools/bump-versions.sh` para actualizarla, de modo que los móviles no sigan usando versiones antiguas desde la caché.
 
 ## Fase 2: Páginas Generales y Captura de QRs Falsos
 - [x] Crear `index.html` (Página de inicio accesible desde la descripción del evento con instrucciones breves de la dinámica de los QR en la mesa y botón de acceso al Adventure Lab).
@@ -22,4 +23,5 @@ Lista de tareas para el desarrollo completo del proyecto.
 
 ## Fase 4: Activos Gráficos y Despliegue Final
 - [ ] Subir las imágenes definitivas (`logo.png`, `puzzle.png`, las 11 imágenes de `cards/` y las imágenes de `arcade/`).
+  - *Avance (2026-11-10):* subidas `logo.png` (600×160, ya visible en el Header) y `puzzle.png` (600×600). Pendientes las imágenes de `cards/` y `arcade/`.
 - [ ] Verificar en GitHub Pages (`https://beaypepe.github.io/adventureday2026/`) desde móviles reales tanto las 5 rutas válidas como el salto a `404.html` en rutas inventadas.
