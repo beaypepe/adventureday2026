@@ -18,7 +18,7 @@ Lista de tareas para el desarrollo completo del proyecto.
 - [x] Abrir el enlace al Adventure Lab solo el día del evento: desde `assets/js/common.js`, antes del 29 de noviembre de 2026 (00:00, hora peninsular) se muestra un aviso al tocar la imagen y no se navega.
 
 ## Fase 3: Desarrollo de los 5 Minijuegos (En sus carpetas)
-- [x] **Laberinto táctil** (`b4x8rf/`): implementado en `<canvas>` con cuadrícula 8x8 a todo el ancho de la pantalla (pasillos de 40–54 px según el móvil). Permite rozar paredes, pero reinicia el recorrido si el trazo atraviesa un muro o si se apoya el dedo fuera del camino. Página `b4x8rf/index.html` y lógica en `assets/js/laberinto.js`.
+- [x] **Laberinto táctil** (`b4x8rf/`): implementado en `<canvas>` con cuadrícula 8x8 a casi todo el ancho de la pantalla (pasillos de 38–52 px según el móvil). Permite rozar paredes, pero reinicia el recorrido si el trazo atraviesa un muro o si se apoya el dedo fuera del camino. Página `b4x8rf/index.html` y lógica en `assets/js/laberinto.js`.
   - *Nota:* la respuesta real ya está incorporada, codificada, en `assets/js/laberinto.js`.
 - [ ] **Puzzle deslizante 3x3** (`7k2m9p/`): Implementar cuadrícula 3x3 con `assets/img/puzzle.png` (600x600px, con fallback numérico si no hay imagen), mezclando el tablero mediante 15-20 movimientos válidos inversos desde la posición resuelta para garantizar que siempre tenga solución rápida.
 - [ ] **Juego de parejas** (`3n9w2q/`): Implementar cuadrícula 4x5 (20 cartas / 10 parejas) usando `assets/img/cards/back.png` y `card1.png` a `card10.png` (200x200px, con fallback visual si aún no están las imágenes), giro 3D al tocar y descarte de parejas acertadas.

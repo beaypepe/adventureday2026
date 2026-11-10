@@ -13,6 +13,7 @@
 
   --page-max-width: 480px; /* Ancho máximo, para probar en escritorio */
   --page-gutter: 20px;     /* Margen lateral del contenido */
+  --maze-inset: 8px;       /* Respiro del laberinto hasta el borde de la pantalla */
 }
 
 /* ---------- Reset mínimo ---------- */
@@ -290,11 +291,12 @@ p {
 /* Tablero del laberinto: bloquea el scroll y la selección mientras se arrastra */
 .maze {
   display: block;
-  /* Ocupa todo el ancho de la pantalla (rompe el margen lateral del contenido):
-     así los pasillos quedan lo más anchos posible debajo del dedo. */
-  width: calc(100% + 2 * var(--page-gutter));
+  /* Casi todo el ancho de la pantalla: rompe el margen lateral del contenido
+     (20 px) y deja solo el respiro de --maze-inset a cada lado. Así los
+     pasillos quedan lo más anchos posible sin que el laberinto toque el borde. */
+  width: calc(100% + 2 * var(--page-gutter) - 2 * var(--maze-inset));
   max-width: none;
-  margin: 8px calc(-1 * var(--page-gutter)) 0;
+  margin: 8px calc(var(--maze-inset) - var(--page-gutter)) 0;
   background: var(--color-white);
   box-shadow: 0 0 0 2px #1a1a1a, 0 6px 16px rgba(0, 0, 0, 0.18);
   touch-action: none;

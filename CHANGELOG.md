@@ -6,7 +6,7 @@ Registro de cambios y avances del proyecto.
 
 ### Modificado
 - **`assets/js/laberinto.js`**: la cuadrícula pasa de 6x6 a **8x8** celdas. La solución media sube de unas 19 casillas a unas 32, así que el recorrido es más largo y pide más atención sin dejar de resolverse en menos de un minuto.
-- **`assets/css/styles.css`**: `.maze` pierde el `border-radius` (esquinas rectas) y pasa a ocupar **todo el ancho de la pantalla**, rompiendo el margen lateral del contenido (`width: calc(100% + 2 * var(--page-gutter))` con márgenes negativos). Así los pasillos miden 40 px en móviles de 320 px, 45 px en los de 360, 49 px en los de 390 y 54 px en los de 430, en lugar de los 35 px a los que se quedaban con 8x8 dentro del contenedor.
+- **`assets/css/styles.css`**: `.maze` pierde el `border-radius` (esquinas rectas) y pasa a ocupar **casi todo el ancho de la pantalla**: rompe el margen lateral del contenido (20 px) con márgenes negativos y deja solo un respiro de 8 px por lado, definido en la variable `--maze-inset`. Así los pasillos miden 38 px en móviles de 320 px, 43 px en los de 360, 47 px en los de 390 y 52 px en los de 430, en lugar de los 35 px a los que se quedaban con 8x8 dentro del contenedor.
 - **`AGENTS.md`** y **`ROADMAP.md`**: la especificación del laberinto recoge la cuadrícula 8x8 y el lienzo a todo lo ancho.
 
 ### Notas
