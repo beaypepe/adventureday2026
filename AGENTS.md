@@ -1,6 +1,6 @@
 # 🤖 AGENTS.md — Directrices Técnicas y de Contexto para IA / Desarrollo
 
-Este documento define la arquitectura, reglas de diseño, restricciones tecnológicas, especificaciones de activos gráficos, mecánicas de juego y flujo de trabajo del proyecto **Adventure Day 2026**. Cualquier agente de IA o desarrollador que intervenga en este repositorio **DEBE** leer y cumplir estrictamente estas directrices.
+Este documento define la arquitectura, reglas de diseño, restricciones tecnológicas, lógica de enrutamiento con códigos QR, especificaciones de activos gráficos, mecánicas de juego y flujo de trabajo del proyecto **Adventure Day 2026**. Cualquier agente de IA o desarrollador que intervenga en este repositorio **DEBE** leer y cumplir estrictamente estas directrices.
 
 ---
 
@@ -9,7 +9,7 @@ Este documento define la arquitectura, reglas de diseño, restricciones tecnoló
 * **URL de Producción (GitHub Pages):** `https://beaypepe.github.io/adventureday2026/`
 * **Tecnologías permitidas:** Exclusivamente **HTML5, CSS3 y JavaScript (Vanilla JS)**. 
 * **Restricción de servidor:** Al alojarse en GitHub Pages, **NO** se puede utilizar PHP, bases de datos ni procesamiento backend. Todo debe ejecutarse en el navegador del cliente (*client-side*).
-* **Rutas relativas/base:** El proyecto se sirve desde la subcarpeta `/adventureday2026/` en GitHub Pages. Todas las referencias a estilos e imágenes deben usar rutas absolutas respecto al subdirectorio (`/adventureday2026/assets/...`) para que funcionen tanto desde la raíz (`index.html`, `404.html`) como desde las subcarpetas de las etapas.
+* **Rutas relativas/base:** El proyecto se sirve desde la subcarpeta `/adventureday2026/` en GitHub Pages. Todas las referencias a estilos e imágenes deben usar rutas absolutas respecto al subdirectorio (`/adventureday2026/assets/...`) para que funcionen tanto desde la raíz (`index.html`, `404.html`) como desde las subcarpetas de las etapas o desde cualquier URL inexistente.
 
 ---
 
@@ -34,7 +34,21 @@ El proyecto se consumirá **exclusivamente desde teléfonos móviles** durante e
 
 ---
 
-## 3. Especificaciones Técnicas de los 5 Minijuegos (Etapas)
+## 3. Lógica de Enrutamiento y Dinámica de Códigos QR
+Durante el evento habrá entre 20 y 30 códigos QR físicos sobre la mesa (los códigos QR en sí se generarán con una herramienta externa; **NO** hay que programar un generador de QRs en este proyecto). La web debe dar soporte a esa dinámica de la siguiente forma:
+
+1. **5 Enlaces Correctos (Carpetas con nombres aleatorios):**
+   * Para evitar que los asistentes adivinen las URLs de las etapas escribiendo `/etapa1`, `/etapa2`, etc. en el navegador, cada una de las 5 etapas estará alojada en una carpeta con un **nombre aleatorio de letras/números** (ej. `/klajdf/`, `/hbdta/`, `/uhufhd/`, etc.).
+   * Los 5 códigos QR buenos apuntarán a `https://beaypepe.github.io/adventureday2026/[codigo-aleatorio]/`.
+2. **20-25 Enlaces Incorrectos / Señuelos (Captura mediante `404.html`):**
+   * El resto de códigos QR físicos tendrán URLs falsas con rutas aleatorias que **NO existen** en el repositorio (ej. `https://beaypepe.github.io/adventureday2026/uyzxcvhjaht`).
+   * Aprovechando el comportamiento nativo de **GitHub Pages**, cualquier ruta inexistente cargará automáticamente el archivo **`404.html`** situado en la raíz del repositorio.
+   * La página **`404.html`** debe mantener exactamente el mismo diseño corporativo (Header naranja, fondo blanco, Footer verde) y mostrar de forma clara y simpática un mensaje tipo: **"Aquí no hay nada... ¡sigue buscando!"**, sin dar pistas de cuáles son las rutas reales.
+   * **Importante en `404.html`:** Como el navegador la renderizará bajo cualquier ruta inventada, todos sus enlaces a CSS e imágenes deben ser rutas absolutas hacia `/adventureday2026/assets/...`.
+
+---
+
+## 4. Especificaciones Técnicas de los 5 Minijuegos (Etapas)
 Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** para no atascar a los asistentes del evento. Todos los juegos deben incluir **fallbacks visuales** (colores, números o emojis) en caso de que las imágenes `.png` aún no estén subidas al repositorio, permitiendo probar toda la lógica desde el primer momento. Al superar cualquiera de ellos, se mostrará de forma clara y destacada en pantalla la **respuesta/código de esa etapa** para introducirla en la app Adventure Lab.
 
 ### Etapa 1: El Laberinto Táctil (HTML5 Canvas + Touch API)
@@ -78,13 +92,12 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 
 ---
 
-## 4. Estructura de Archivos del Proyecto
-Cada etapa se alojará en una carpeta con un **identificador alfanumérico aleatorio**:
+## 5. Estructura de Archivos del Proyecto
 
 ```text
 /
 ├── index.html                  # Página inicial con instrucciones y enlace al Adventure Lab
-├── 404.html                    # Página señuelo ("Aquí no hay nada, sigue buscando")
+├── 404.html                    # Página señuelo ("Aquí no hay nada... sigue buscando") para QRs falsos
 ├── README.md                   # Descripción pública del proyecto
 ├── AGENTS.md                   # Este archivo de directrices técnicas
 ├── ROADMAP.md                  # Lista de tareas pendientes y completadas
@@ -106,21 +119,21 @@ Cada etapa se alojará en una carpeta con un **identificador alfanumérico aleat
 │           ├── item-good.png   # Logo Adventure Day que cae (128x128px)
 │           ├── item-bad.png    # Bomba a esquivar (128x128px)
 │           └── player.png      # Cesta/receptor opcional (160x100px)
-├── [hash-etapa-1]/             # Etapa 1: Laberinto táctil (no atravesar paredes)
+├── [hash-etapa-1]/             # Carpeta con nombre aleatorio -> Etapa 1: Laberinto táctil
 │   └── index.html
-├── [hash-etapa-2]/             # Etapa 2: Puzzle deslizante 3x3
+├── [hash-etapa-2]/             # Carpeta con nombre aleatorio -> Etapa 2: Puzzle deslizante 3x3
 │   └── index.html
-├── [hash-etapa-3]/             # Etapa 3: Juego de parejas (20 cartas)
+├── [hash-etapa-3]/             # Carpeta con nombre aleatorio -> Etapa 3: Juego de parejas (20 cartas)
 │   └── index.html
-├── [hash-etapa-4]/             # Etapa 4: Sopa de letras táctil
+├── [hash-etapa-4]/             # Carpeta con nombre aleatorio -> Etapa 4: Sopa de letras táctil
 │   └── index.html
-└── [hash-etapa-5]/             # Etapa 5: Mini-juego arcade "Atrapa el Logo" (26 logos)
+└── [hash-etapa-5]/             # Carpeta con nombre aleatorio -> Etapa 5: Mini-juego arcade (26 logos)
     └── index.html
 ```
 
 ---
 
-## 5. Flujo de Trabajo y Mantenimiento Documental (REGLA ESTRICTA)
+## 6. Flujo de Trabajo y Mantenimiento Documental (REGLA ESTRICTA)
 Cada vez que se complete una tarea o se realice un cambio de los listados en `ROADMAP.md`:
 1. **Actualizar `ROADMAP.md`:** Marcar la tarea correspondiente como completada (`[x]`).
 2. **Actualizar `CHANGELOG.md`:** Añadir una nueva entrada con la fecha y el detalle técnico de lo que se ha creado o modificado.
