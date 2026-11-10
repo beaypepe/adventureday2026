@@ -23,6 +23,7 @@
   var canvas = document.getElementById("arcade");
   var textoEstado = document.getElementById("estado");
   var botonReiniciar = document.getElementById("reiniciar");
+  var botonReintentar = document.getElementById("reintentar");
   var cajaRespuesta = document.getElementById("respuesta-final");
 
   if (!canvas) {
@@ -265,7 +266,7 @@
     perdido = true;
     rojo = 0.7;
     estado("¡Bomba! Has perdido con " + atrapados + " de " + META +
-      " logos. Pulsa «Empezar de nuevo».");
+      " logos. Pulsa «Reintentar» para volver a empezar.");
 
     if (navigator.vibrate) {
       navigator.vibrate([80, 60, 80]);
@@ -273,6 +274,17 @@
 
     if (botonReiniciar) {
       botonReiniciar.classList.add("btn--atencion");   // botón bien visible
+    }
+
+    if (botonReintentar) {
+      botonReintentar.hidden = false;
+
+      // El foco se va al botón del propio juego, para poder reintentar sin bajar.
+      try {
+        botonReintentar.focus({ preventScroll: true });
+      } catch (error) {
+        botonReintentar.focus();
+      }
     }
   }
 
@@ -407,10 +419,18 @@
     if (botonReiniciar) {
       botonReiniciar.classList.remove("btn--atencion");
     }
+
+    if (botonReintentar) {
+      botonReintentar.hidden = true;
+    }
   }
 
   if (botonReiniciar) {
     botonReiniciar.addEventListener("click", empezar);
+  }
+
+  if (botonReintentar) {
+    botonReintentar.addEventListener("click", empezar);
   }
 
   window.addEventListener("resize", ajustarTamano);

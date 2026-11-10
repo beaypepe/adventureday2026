@@ -2,6 +2,18 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — «Reintentar» dentro del arcade
+
+### Añadido
+- **`#reintentar` en `5h1j7v/index.html`**: un botón **«Reintentar» que aparece dentro del propio juego** cuando se pierde, justo debajo de la banda «¡Has perdido!». Así se vuelve a jugar sin bajar hasta el botón del final de la página. Es un botón HTML de verdad, no pintado en el canvas, así que se puede tocar, enfocar con el teclado y lo leen los lectores de pantalla.
+- **`.arcade-caja` en `assets/css/styles.css`**: envoltorio del canvas con `position: relative` para colocar el botón encima. El ancho y los 8 px de margen pasan del canvas a la caja; el canvas ocupa el 100 % de ella. El botón está centrado y a una altura del 58 % del juego (200 × 45 px como mucho), siempre dentro del canvas a 320, 360, 390 y 430 px.
+
+### Modificado
+- **`assets/js/arcade.js`**: al perder se muestra el botón y el foco se va a él (`focus({ preventScroll: true })`, para que la página no se mueva); al reiniciar se vuelve a ocultar. El mensaje de estado ahora dice «¡Bomba! Has perdido con N de 26 logos. Pulsa «Reintentar» para volver a empezar.». El botón de abajo, «Empezar de nuevo», sigue funcionando igual.
+
+### Notas
+- Comprobado a 320, 360, 390 y 430 px: el botón queda dentro del canvas, centrado, recibe el foco y al pulsarlo se reinicia la partida (contador a 0, juego en marcha) y desaparece. Sin desbordes y sin errores de JavaScript.
+
 ## 2026-11-10 — En el arcade, una bomba termina la partida
 
 ### Modificado

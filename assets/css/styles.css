@@ -580,18 +580,37 @@ p {
 }
 
 /* ---------- Arcade ---------- */
-.arcade {
-  display: block;
-  /* Mismo ancho que los otros juegos: casi todo, con un respiro a cada lado.
-     La altura la fija el JavaScript (un poco más alta que ancha). */
+/* Caja que envuelve el canvas para poder ponerle encima el botón de reintentar */
+.arcade-caja {
+  position: relative;
+  /* Mismo ancho que los otros juegos: casi todo, con un respiro a cada lado. */
   width: calc(100% + 2 * var(--page-gutter) - 2 * var(--juego-inset));
   margin: 8px calc(var(--juego-inset) - var(--page-gutter)) 0;
+}
+
+.arcade {
+  display: block;
+  /* La altura la fija el JavaScript (un poco más alta que ancha). */
+  width: 100%;
   background: var(--color-white);
   box-shadow: 0 0 0 2px #1a1a1a, 0 6px 16px rgba(0, 0, 0, 0.18);
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* «Reintentar» dentro del juego, justo debajo de «¡Has perdido!» */
+.arcade__reintentar {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  width: min(62%, 200px);
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 1rem;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .game__estado {
