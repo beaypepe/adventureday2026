@@ -2,6 +2,18 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — El laberinto se queda solo en su página
+
+### Modificado
+- **`b4x8rf/index.html`**: fuera el párrafo de avisos que había debajo del tablero y el botón «Empezar de nuevo». Ahora la página muestra el título, una instrucción, el laberinto y el Footer, que queda a la vista sin hacer scroll a cualquier alto de pantalla.
+- La instrucción ya no dice «sin levantarlo»: **levantar el dedo está permitido**, basta con volver a apoyarlo en la casilla donde se quedó la ficha. Es cómodo cuando la propia mano tapa el camino.
+- **`assets/js/laberinto.js`**: se quita el manejo del botón de reiniciar. Los mensajes de estado se mantienen en el párrafo `#estado`, que ahora es invisible (`.sr-only` con `role="status"`), para no perder el aviso en lectores de pantalla. El resto del feedback sigue igual: fogonazo rojo en el marco y vibración corta al atravesar una pared.
+- **`assets/css/styles.css`**: utilidad `.sr-only` para el texto que solo leen los lectores de pantalla.
+- **`AGENTS.md`** y **`ROADMAP.md`**: recogen que la página no lleva avisos visibles ni botón y que se puede levantar el dedo.
+
+### Notas
+- Comprobado con toques reales en Chromium (360×780, `hasTouch`): soltar el dedo a mitad del recorrido no reinicia nada y, al apoyarlo de nuevo en la misma casilla, se puede seguir hasta la meta; apoyarlo en otra casilla sí reinicia; el modal sigue mostrando la respuesta. 0 errores de JavaScript.
+
 ## 2026-11-10 — Segundo minijuego: el puzzle deslizante
 
 ### Añadido

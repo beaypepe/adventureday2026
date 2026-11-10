@@ -5,7 +5,8 @@
    • Se juega arrastrando el dedo desde la salida (arriba a la izquierda, verde)
      hasta la meta (naranja), que cada partida cae en un punto lejano distinto.
    • Rozar las paredes no penaliza; atravesarlas sí: el laberinto vuelve al inicio.
-   • Levantar el dedo y apoyarlo en otra casilla también reinicia el recorrido.
+   • Se puede levantar el dedo y volver a apoyarlo en la casilla donde está la
+     ficha (útil si la mano tapa el camino). Apoyarlo en otra casilla reinicia.
    ========================================================================== */
 (function () {
   "use strict";
@@ -18,7 +19,6 @@
 
   var canvas = document.getElementById("laberinto");
   var textoEstado = document.getElementById("estado");
-  var botonReiniciar = document.getElementById("reiniciar");
   var cajaRespuesta = document.getElementById("respuesta-final");
 
   if (!canvas) {
@@ -453,12 +453,6 @@
   canvas.addEventListener("pointerup", soltar);
   canvas.addEventListener("pointercancel", soltar);
   canvas.addEventListener("pointerleave", soltar);
-
-  if (botonReiniciar) {
-    botonReiniciar.addEventListener("click", function () {
-      reiniciar();
-    });
-  }
 
   window.addEventListener("resize", ajustarTamano);
 

@@ -60,10 +60,12 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 * **Tamaño y Ergonomía ("Dedos Gordos"):** 
   * **CRÍTICO:** En pantallas de móvil de `360px` de ancho, una cuadrícula de 10x10 o 12x12 deja pasillos demasiado estrechos y el propio dedo tapa el camino. La cuadrícula es de **8x8 celdas** (el máximo admitido) y el `<canvas>` ocupa **casi todo el ancho de la pantalla** (rompe el margen lateral del contenido y deja solo 8 px hasta el borde), para que los pasillos midan 38–52 px según el móvil.
 * **Salida y meta:** la salida está siempre **arriba a la izquierda**; la meta se sortea en cada partida entre las casillas que quedan lejos (al menos 20 pasos de recorrido y 6 casillas en línea recta), así que **no se fija en la esquina opuesta** ni aparece al lado de la salida. El camino siempre pide un buen trecho.
+* **Página:** solo el laberinto. Debajo del `<canvas>` **no** hay texto de avisos ni botón de reiniciar, para que el Footer quede a la vista. Los mensajes de estado siguen existiendo en un párrafo `.sr-only` con `role="status"`, invisible, solo para lectores de pantalla.
 * **Mecánica de Colisión (Rozar vs. Atravesar):**
   * **NO** se penaliza que el jugador roce o toque los bordes de las paredes con el dedo (algo natural en pantallas táctiles).
   * Lo que está **prohibido es ATRAVESAR una pared** (pasar de una celda a otra cuando existe un muro entre ambas, o saltar celdas haciendo trampa).
-  * El seguimiento del dedo (`touchmove`) debe evaluar el segmento entre la celda anterior y la celda actual: si el vector de movimiento cruza un muro (o si el usuario levanta el dedo y lo apoya en otra parte saltándose el camino), **el laberinto se reinicia al inicio** (acompañado de vibración corta `navigator.vibrate(100)` si está disponible y feedback visual).
+  * **Levantar el dedo está permitido:** se puede soltar y volver a apoyarlo en la casilla donde está la ficha para seguir el recorrido, algo cómodo cuando la mano tapa el camino. Solo se reinicia si el dedo se apoya en otra casilla, saltándose el camino.
+  * El seguimiento del dedo (`pointermove`) debe evaluar el segmento entre la celda anterior y la actual: si el vector cruza un muro, **el laberinto se reinicia al inicio** (con vibración corta `navigator.vibrate(100)` si está disponible y un fogonazo rojo en el marco).
 
 ### Etapa 2: El Puzzle Deslizante 3x3 (CSS Grid + Algoritmo Soluble)
 * **Activos gráficos:** Usa la imagen cuadrada `/adventureday2026/assets/img/puzzle.png` (**600×600 píxeles**), referenciada en el atributo `data-imagen` del tablero para que `tools/bump-versions.sh` le actualice la marca `?v=`. Si la imagen no carga, cada ficha muestra su número del 1 al 8 sobre un fondo de color pastel.
