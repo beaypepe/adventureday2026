@@ -124,6 +124,12 @@ p {
   margin: 0 0 16px;
 }
 
+/* Enlaces de texto dentro del contenido (color corporativo y subrayado) */
+.site-main a {
+  color: var(--color-green);
+  text-decoration: underline;
+}
+
 /* Lista de pasos numerados con círculos naranjas */
 .steps {
   margin: 0 0 28px;
@@ -247,7 +253,6 @@ p {
 }
 
 .note a {
-  color: inherit;
   font-weight: 700;
 }
 

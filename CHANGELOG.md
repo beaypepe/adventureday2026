@@ -2,6 +2,23 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — Favicon propio y textos de inicio ajustados
+
+### Añadido
+- **`assets/img/favicon.png`** (180×180 px, fondo transparente) y **`assets/img/apple-touch-icon.png`** (180×180 px, fondo blanco para iOS): icono del sitio construido a partir del símbolo del logotipo oficial de Adventure Lab (el marcador con forma de globo naranja).
+  - Se declaran en el `<head>` de `index.html` y `404.html` con `<link rel="icon">` y `<link rel="apple-touch-icon">`, con su marca de tiempo `?v=`.
+  - Servidos desde el propio repositorio (no se enlaza el servicio de iconos de Google): así no dependemos de un tercero y se respeta la regla de rutas absolutas del apartado 1 de `AGENTS.md`.
+
+### Modificado
+- **`index.html`**:
+  - Paso 1: «Encuentra los cinco códigos QR.», sin mencionar que estén repartidos por la mesa.
+  - Entrada: «Durante el evento **Adventure Day 2026** (en negrita y enlazado a `https://www.geocaching.com/geocache/GCC0481`), que se celebra el **29 de noviembre**, podrás completar un **Adventure Lab** de 5 etapas…».
+- **`assets/css/styles.css`**: nueva regla `.site-main a` (enlaces de texto en verde corporativo `#02874d` y subrayados, 4,59:1 de contraste sobre blanco); `.note a` conserva solo la negrita.
+- **`AGENTS.md`**: el apartado 2 documenta el favicon como elemento común a todas las páginas y el árbol del apartado 5 incluye los dos archivos nuevos.
+
+### Notas
+- El icono se ha generado localmente porque el entorno de trabajo no tiene salida a `google.com` ni a `geocaching.com`. Si se prefiere el PNG exacto que devuelve Google (`https://www.google.com/s2/favicons?domain=labs.geocaching.com&sz=128`), basta con sustituir `assets/img/favicon.png` y ejecutar `tools/bump-versions.sh` para que los móviles dejen de usar el anterior.
+
 ## 2026-11-10 — Inicio más discreto, acceso al Lab con imagen y página 404
 
 ### Añadido

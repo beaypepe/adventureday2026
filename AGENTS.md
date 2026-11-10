@@ -29,6 +29,9 @@ El proyecto se consumirá **exclusivamente desde teléfonos móviles** durante e
   * Centrado, color de fondo `#d65b33`.
   * Contiene la imagen `/adventureday2026/assets/img/logo.png` centrada (resolución recomendada: `600x160px`, altura máxima en CSS `55px`).
   * **Regla de Fallback del Logo:** Si `logo.png` no existe o falla al cargar, debe ocultarse automáticamente y mostrar el texto `"Adventure Day 2026"` estilizado en blanco y negrita mediante el evento `onerror` en el HTML.
+* **Favicon (Común a todas las páginas):**
+  * Icono del sitio: `/adventureday2026/assets/img/favicon.png` (180x180px, fondo transparente) y, para iOS, `/adventureday2026/assets/img/apple-touch-icon.png` (180x180px, fondo blanco).
+  * Se declaran en el `<head>` de **todas** las páginas con `<link rel="icon">` y `<link rel="apple-touch-icon">`, siempre con la marca de tiempo `?v=` del apartado 7.
 * **Footer (Común a todas las páginas):**
   * Centrado, color de fondo `#02874d`.
   * Texto obligatorio: `Una ocurrencia de <a href="https://beaypepe.com" target="_blank" rel="noopener">BeayPepe</a>` (con el enlace en blanco, negrita y subrayado).
@@ -111,6 +114,8 @@ Los juegos deben ser **rápidos y fáciles de resolver (1-2 minutos máximo)** p
 │   ├── js/
 │   │   └── common.js           # Funciones compartidas (header/footer/modales de victoria)
 │   └── img/
+│       ├── favicon.png         # Icono del sitio en la pestaña (180x180px)
+│       ├── apple-touch-icon.png # Icono para iOS (180x180px)
 │       ├── logo.png            # Logo del encabezado (600x160px)
 │       ├── puzzle.png          # Imagen cuadrada para Etapa 2 (600x600px)
 │       ├── cards/              # Imágenes para Etapa 3 (200x200px cada una)

@@ -9,6 +9,7 @@ Lista de tareas para el desarrollo completo del proyecto.
 - [ ] Crear la hoja de estilos global (`assets/css/styles.css`) y utilidades (`assets/js/common.js`) con diseño Mobile-Only, bloqueo de scroll en áreas táctiles, colores corporativos (`#d65b33`, `#ffffff`, `#02874d`), Header con fallback automático para `logo.png`, Footer con enlace a BeayPepe y modal de revelación de respuesta.
   - *Avance (2026-11-10):* creada la base de `assets/css/styles.css` (paleta corporativa, reset, layout móvil, Header con fallback del logo, Footer, botón e imagen de acceso al Lab) y `assets/js/common.js` (bloqueo por fecha del enlace al Adventure Lab). Pendientes el bloqueo de scroll en áreas táctiles y el modal de revelación de respuesta.
 - [x] Añadir marca de tiempo (`?v=`) a las referencias de `assets/` (CSS, JS e imágenes) y el script `tools/bump-versions.sh` para actualizarla, de modo que los móviles no sigan usando versiones antiguas desde la caché.
+- [x] Añadir favicon propio a todas las páginas (`assets/img/favicon.png` y `apple-touch-icon.png`), generado a partir del símbolo del logotipo de Adventure Lab.
 
 ## Fase 2: Páginas Generales y Captura de QRs Falsos
 - [x] Crear `index.html` (Página de inicio accesible desde la descripción del evento: instrucciones breves de los cinco códigos QR, los cinco minijuegos y las cinco etapas, y acceso al Adventure Lab mediante imagen).
