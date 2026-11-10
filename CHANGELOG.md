@@ -2,6 +2,19 @@
 
 Registro de cambios y avances del proyecto.
 
+## 2026-11-10 — La meta del laberinto ya no está fija en la esquina opuesta
+
+### Añadido
+- **`elegirMeta()` en `assets/js/laberinto.js`**: al empezar cada partida se miden las distancias desde la salida con un recorrido en anchura y la meta se sortea entre las casillas lejanas, que son las que piden **al menos 20 pasos** (y el 70 % del recorrido máximo) **y quedan a 6 o más casillas de la salida en línea recta**. La salida sigue arriba a la izquierda.
+
+### Modificado
+- El dibujo de la meta (fondo tenue y anillo naranja) y la condición de victoria usan la casilla sorteada, no la esquina inferior derecha.
+- **`b4x8rf/index.html`** y el mensaje de estado del juego avisan de que **la meta cambia de sitio en cada partida**, para que nadie arrastre el dedo hacia la esquina por costumbre.
+
+### Notas
+- Medido sobre 2000 laberintos de 8x8: el recorrido hasta la meta va de **23 pasos** (el más corto) a unos 50, con una media de **38,8**, frente a los 31 pasos que pedía la esquina fija. En el 2 % de las partidas la meta cae en la esquina opuesta por azar, no por norma.
+- Comprobado con toques reales en Chromium: la meta sorteada se alcanza, la victoria muestra la respuesta y el recorrido vuelve a la salida al cruzar una pared, con 0 errores de JavaScript.
+
 ## 2026-11-10 — El laberinto crece a 8x8 y pierde las esquinas redondeadas
 
 ### Modificado

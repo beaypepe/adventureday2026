@@ -2,7 +2,8 @@
    Laberinto táctil — Adventure Day 2026 (carpeta b4x8rf)
    --------------------------------------------------------------------------
    Reglas:
-   • Se juega arrastrando el dedo desde la salida (verde) hasta la meta (naranja).
+   • Se juega arrastrando el dedo desde la salida (arriba a la izquierda, verde)
+     hasta la meta (naranja), que cada partida cae en un punto lejano distinto.
    • Rozar las paredes no penaliza; atravesarlas sí: el laberinto vuelve al inicio.
    • Levantar el dedo y apoyarlo en otra casilla también reinicia el recorrido.
    ========================================================================== */
@@ -26,6 +27,8 @@
 
   var ctx = canvas.getContext("2d");
   var laberinto;
+  var salida = { x: 0, y: 0 };
+  var meta = { x: N - 1, y: N - 1 }; // se sortea al arrancar (ver elegirMeta)
   var celda = 0;
   var posicion = { x: 0, y: 0 };
   var camino = [{ x: 0, y: 0 }];
@@ -105,6 +108,74 @@
     return celdas;
   }
 
+  /* Meta de la partida. No se fija en la esquina opuesta: se miden las
+     distancias desde la salida y se sortea entre las casillas lejanas, es decir,
+     las que piden al menos 20 pasos (y el 70 % del recorrido máximo) y quedan a
+     6 o más casillas de la salida en línea recta. Así el camino siempre es largo,
+     la meta aparece cada vez en un sitio distinto y nunca al lado de la salida. */
+  function elegirMeta(celdas, azar) {
+    var distancias = [];
+    var cola = [0];
+    var i;
+
+    for (i = 0; i < N * N; i++) {
+      distancias.push(-1);
+    }
+    distancias[0] = 0;
+
+    // Recorrido en anchura: cuántas casillas hay que cruzar hasta cada una
+    for (i = 0; i < cola.length; i++) {
+      var actual = cola[i];
+      var ax = actual % N;
+      var ay = Math.floor(actual / N);
+      var c = celdas[actual];
+      var vecinos = [];
+
+      if (!c.n && ay > 0) { vecinos.push(actual - N); }
+      if (!c.e && ax < N - 1) { vecinos.push(actual + 1); }
+      if (!c.s && ay < N - 1) { vecinos.push(actual + N); }
+      if (!c.o && ax > 0) { vecinos.push(actual - 1); }
+
+      for (var j = 0; j < vecinos.length; j++) {
+        if (distancias[vecinos[j]] === -1) {
+          distancias[vecinos[j]] = distancias[actual] + 1;
+          cola.push(vecinos[j]);
+        }
+      }
+    }
+
+    var mayor = 0;
+    for (i = 0; i < distancias.length; i++) {
+      if (distancias[i] > mayor) { mayor = distancias[i]; }
+    }
+
+    var umbral = Math.max(20, Math.ceil(mayor * 0.7));
+    var candidatas = [];
+    var apartadas = [];
+
+    for (i = 0; i < distancias.length; i++) {
+      if (distancias[i] >= umbral) {
+        candidatas.push(i);
+
+        // Además, separada de la salida en línea recta (no solo en pasos)
+        if ((i % N) + Math.floor(i / N) >= 6) {
+          apartadas.push(i);
+        }
+      }
+    }
+
+    if (apartadas.length) {
+      candidatas = apartadas;
+    }
+
+    if (!candidatas.length) {
+      return { x: N - 1, y: N - 1 };
+    }
+
+    var elegida = candidatas[Math.floor(azar() * candidatas.length)];
+    return { x: elegida % N, y: Math.floor(elegida / N) };
+  }
+
   function celdaDe(x, y) {
     return laberinto[y * N + x];
   }
@@ -120,9 +191,9 @@
 
     // Fondos de salida y meta
     ctx.fillStyle = "rgba(2, 135, 77, 0.12)";
-    ctx.fillRect(0, 0, celda, celda);
+    ctx.fillRect(salida.x * celda, salida.y * celda, celda, celda);
     ctx.fillStyle = "rgba(214, 91, 51, 0.14)";
-    ctx.fillRect((N - 1) * celda, (N - 1) * celda, celda, celda);
+    ctx.fillRect(meta.x * celda, meta.y * celda, celda, celda);
 
     // Camino ya recorrido (se ve por debajo del dedo)
     if (camino.length > 1) {
@@ -145,12 +216,12 @@
 
     // Salida y meta
     ctx.beginPath();
-    ctx.arc(celda / 2, celda / 2, Math.max(4, celda * 0.14), 0, Math.PI * 2);
+    ctx.arc((salida.x + 0.5) * celda, (salida.y + 0.5) * celda, Math.max(4, celda * 0.14), 0, Math.PI * 2);
     ctx.fillStyle = "#02874d";
     ctx.fill();
 
     ctx.beginPath();
-    ctx.arc((N - 0.5) * celda, (N - 0.5) * celda, Math.max(6, celda * 0.22), 0, Math.PI * 2);
+    ctx.arc((meta.x + 0.5) * celda, (meta.y + 0.5) * celda, Math.max(6, celda * 0.22), 0, Math.PI * 2);
     ctx.lineWidth = Math.max(4, celda * 0.09);
     ctx.strokeStyle = "#d65b33";
     ctx.stroke();
@@ -224,8 +295,8 @@
   }
 
   function reiniciar(mensaje) {
-    posicion = { x: 0, y: 0 };
-    camino = [{ x: 0, y: 0 }];
+    posicion = { x: salida.x, y: salida.y };
+    camino = [{ x: salida.x, y: salida.y }];
     ultimoPunto = null;
     arrastrando = false;
     terminado = false;
@@ -234,7 +305,7 @@
       cajaRespuesta.hidden = true;
     }
 
-    estado(mensaje || "Puedes rozar las paredes, pero no atravesarlas: si lo haces, vuelves a empezar.");
+    estado(mensaje || "La meta cambia de sitio en cada partida. Puedes rozar las paredes, pero no atravesarlas: si lo haces, vuelves a empezar.");
     dibujar();
   }
 
@@ -330,7 +401,7 @@
       camino.push(posicion);
       dibujar();
 
-      if (posicion.x === N - 1 && posicion.y === N - 1) {
+      if (posicion.x === meta.x && posicion.y === meta.y) {
         ganar();
         return true;
       }
@@ -393,7 +464,9 @@
 
   /* ---------- Arranque ---------- */
 
-  laberinto = generarLaberinto(N, crearAzar());
+  var azar = crearAzar();
+  laberinto = generarLaberinto(N, azar);
+  meta = elegirMeta(laberinto, azar);
   ajustarTamano();
   reiniciar();
 })();
